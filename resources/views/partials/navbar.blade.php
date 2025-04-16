@@ -1,5 +1,5 @@
 <nav class="navbar">        
-    <a href="{{ url('eshop.html') }}">
+    <a href="{{ route('home') }}">
         <h1 class="logo">Keramo</h1>
     </a>
     <ul class="nav-links">
@@ -22,12 +22,12 @@
         <div class="popup-content">
             <label for="menu-toggle" class="close-btn">&times;</label>
             <ul>
-                <li><a href="eshop.html">Domov</a></li>
-                <li><a href="pohare.html">Poháre</a></li>
-                <li><a href="taniere.html">Taniere</a></li>
-                <li><a href="sety.html">Sety</a></li>
-                <li><a href="misky.html">Misky</a></li>
-                <li><a href="ine.html">Iné</a></li>
+                <li><a href="{{ route('home') }}">Domov</a></li>
+                <li><a href="{{ route('cups') }}">Poháre</a></li>           
+                <li><a href="{{ route('plates') }}">Taniere</a></li>
+                <li><a href="{{ route('sets') }}">Sety</a></li>
+                <li><a href="{{ route('bowls') }}">Misky</a></li>
+                <li><a href="{{ route('others') }}">Iné</a></li>
                 <li><a href="eshop.html#o-nas">O nás</a></li>
                 <li><a href="#">Kontakty</a></li>
             </ul>
@@ -35,8 +35,3 @@
     </div>
 </nav>
 
-<header class="header-main">
-    <div class="line">
-        <a href="#kategorie" class="ctn">Nakupuj teraz</a>          
-    </div>
-</header>

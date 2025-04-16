@@ -3,6 +3,11 @@
 @section('title', 'Domov - Keramo.sk')
 
 @section('content')
+<header class="header-main">
+    <div class="line">
+        <a href="#kategorie" class="ctn">Nakupuj teraz</a>          
+    </div>
+</header>
 
 <section class="intro-section">
     <div>
@@ -17,31 +22,31 @@
 <section id="kategorie">
     <div class="kategorie">
         <div class="kategoria">
-            <a href="pohare.html">
+            <a href="{{ route('cups') }}">
                 <img src="pohare/il_fullxfull.5601631086_nnqk.webp" alt="Poháre">
                 <span class="text">Poháre</span>
             </a>
         </div>
         <div class="kategoria">
-            <a href="taniere.html">
-                <img src="taniere/tanier_kvetinajpg.jpg" alt="Taniere">
-                <span class="text">Taniere</span>
-            </a>
+        <a href="{{ route('plates') }}">
+            <img src="taniere/tanier_kvetinajpg.jpg" alt="Taniere">
+            <span class="text">Taniere</span>
+        </a>
         </div>
         <div class="kategoria">
-            <a href="sety.html">
+            <<a href="{{ route('sets') }}">
                 <img src="setiky/sety.jpg" alt="Sety">
                 <span class="text">Sety</span>
             </a>
         </div>
         <div class="kategoria">
-            <a href="misky.html">
+            <a href="{{ route('bowls') }}">
                 <img src="misky/asian misky.webp" alt="Misky">
                 <span class="text">Misky</span>
             </a>
         </div>
         <div class="kategoria">
-            <a href="ine.html">
+            <a href="{{ route('others') }}">
                 <img src="ine/dzban s uchom.jpg" alt="Iné">
                 <span class="text">Iné</span>
             </a>
