@@ -75,8 +75,8 @@
                     </div>
                 </div>
                 
-        
-                <a href="pohare.html" class="back-btn">← Späť na pohare.</a>
+                
+                <a href="{{ route('cups') }}" class="back-btn">← Späť na pohare.</a>
             </div>
         
     </section>
