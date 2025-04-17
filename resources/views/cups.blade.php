@@ -71,8 +71,8 @@
 
         
         <div class="product-item">
-            <a href="detail.html?produkt=jahodovy">
-                <img src="pohare/modry_pohar.jpg" alt="Keramický pohár s modrou glazúrou" class="product-image">
+            <a href="{{ route('product.detail', ['slug' => 'modry-pohar']) }}">
+                <img src="{{ asset('pohare/modry_pohar.jpg') }}" alt="Keramický pohár s modrou glazúrou" class="product-image">
             </a>
             <h3>Keramický pohár s modrou glazúrou</h3>
             <p>Kvalitná ručná práca, ideálna na rannú kávu či čaj.</p>

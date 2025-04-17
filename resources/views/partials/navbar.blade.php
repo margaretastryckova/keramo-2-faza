@@ -10,9 +10,10 @@
             </label>
             <input type="text" class="search-input" placeholder="Hľadať..." />
         </li>
-        <li><a href="favorite.html" class="heart-icon"><i class="far fa-heart"></i></a></li>
-        <li><a href="profil.html" class="profile-icon"><i class="far fa-user"></i></a></li>
-        <li><a href="kosik.html" class="cart-icon"><i class="fas fa-shopping-cart"></i></a></li>
+        <li><a href="{{ route('favorit') }}" class="heart-icon"><i class="far fa-heart"></i></a></li>
+        <li><a href="{{ route('myprofile') }}" class="profile-icon"><i class="far fa-user"></i></a></li>
+        <li><a href="{{ route('basket') }}" class="cart-icon"><i class="fas fa-shopping-cart"></i></a></li>
+        
     </ul>
     <label for="menu-toggle" class="menu-icon">
         <i class="fas fa-bars"></i>

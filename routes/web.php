@@ -12,9 +12,9 @@ Route::get('/plates', function () {
     return view('plates');
 })->name('plates');
 
-Route::get('/detail', function () {
-    return view('detail');
-})->name('detail');
+Route::get('/cups', function () {
+    return view('cups'); 
+})->name('cups');
 
 Route::get('/sets', function () {
     return view('sets');
@@ -28,13 +28,38 @@ Route::get('/others', function () {
     return view('others');
 })->name('others');
 
+Route::get('/detail', function () {
+    return view('detail');
+})->name('detail');
+
+Route::get('/favorit', function () {
+    return view('favorit');
+})->name('favorit');
+
+
 Route::get('/profile', function () {
     return view('profile'); 
 })->name('profile');
 
-Route::get('/cups', function () {
-    return view('cups'); 
-})->name('cups');
+Route::get('/registration', function () {
+    return view('registration');
+})->name('registration');
+
+Route::get('/myprofile', function () {
+    return view('myprofile');
+})->name('myprofile');
+
+Route::get('/basket', function () {
+    return view('basket');
+})->name('basket');
+
+Route::get('/checkoutt', function () {
+    return view('checkoutt');
+})->name('checkoutt');
+
+Route::get('/confirm', function () {
+    return view('confirm');
+})->name('confirm');
 
 
 
