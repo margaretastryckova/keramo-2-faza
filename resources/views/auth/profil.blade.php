@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="wrapper">
-
     <!-- profil -->
     <div class="profile-menu-container">
         <h2>Ahoj, {{ Auth::user()->name }}!</h2>
@@ -56,7 +55,15 @@
             </li>
 
             <!-- Odhlásenie -->
-            <li><a href="{{ url('/profil') }}">Odhlásiť sa</a></li>
+            <li>
+                <a href="{{ route('logout') }}" 
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    Odhlásiť sa
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </li>
         </ul>
     </div> 
 </div>
