@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-profil">
     <div class="profil-header-container">
-        <a href="{{ url('/registration') }}" class="prihlasit-link">Prihlásiť sa</a>
+        <a href="{{ url('/login') }}" class="prihlasit-link">Prihlásiť sa</a>
         <span class="divider"></span>
         <h3 class="text-center">Registrovať sa</h3>
     </div>
@@ -48,10 +48,10 @@
 
     <!-- Pop-up uspesne zaregistrovany -->
     <div id="successPopup" class="popup-successful-prihlasenie">
-        <a href="{{ url('/profil') }}" for="popup-toggle" class="popup-background"></a>
+        <a href="{{ url('/login') }}" for="popup-toggle" class="popup-background"></a>
         <div class="popup-content-success">
             <span class="checkmark">✔</span>
-            <a href="{{ url('/profil') }}" for="succes-toggle" class="close-btn-profil-succes">×</a>
+            <a href="{{ url('/login') }}" for="succes-toggle" class="close-btn-profil-succes">×</a>
             <p>Váš profil bol úspešne vytvorený. Prosím prihláste sa.</p>
         </div>
     </div>

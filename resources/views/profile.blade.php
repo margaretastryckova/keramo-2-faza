@@ -6,7 +6,7 @@
         <div class="profil-header-container">
             <h2 class="text-center">Prihlásiť sa</h2>
             <span class="divider"></span>
-            <a href="registracia.html" class="register-link">Registrovať sa</a>
+            <a href="{{ route('registration') }}" class="register-link">Registrovať sa</a>
         </div>
 
         <form action="{{ route('login') }}" method="POST">

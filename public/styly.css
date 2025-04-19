@@ -544,13 +544,18 @@ li.active {
     background-color: #555;
 }
 
+
+main {
+    flex-grow: 1; /* Expands to push footer down */
+}
+
 /* Footer */
 footer {
-    background-color:#5c421c;
+    background-color: #5c421c;
     color: white;
     text-align: center;
     padding: 20px;
-    margin-top: 40px;
+    width: 100%;
 }
 
 .footer-links {
