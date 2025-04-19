@@ -33,7 +33,7 @@
                 <li><a href="{{ route('sets') }}">Sety</a></li>
                 <li><a href="{{ route('bowls') }}">Misky</a></li>
                 <li><a href="{{ route('others') }}">Iné</a></li>
-                <li><a href="eshop.html#o-nas">O nás</a></li>
+                <li><a href="{{ route('home') }}#o-nas">O nás</a></li>
                 <li><a href="#">Kontakty</a></li>
             </ul>
         </div>

@@ -1,7 +1,7 @@
 <footer>
     <div class="footer-content">
         <div class="footer-links">
-            <a href="eshop.html#o-nas">O nás</a>
+            <a href="{{ route('home') }}#o-nas">O nás</a>
             <a href="#">Dodávatelia</a>
             <a href="#">Kontakt</a>
         </div>

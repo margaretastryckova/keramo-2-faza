@@ -55,8 +55,40 @@
 </section>
 
 <section class="about-us" id="o-nas">
-    {{-- Tu daj tie video bloky ako predtým --}}
-    {{-- Skopíruj celý obsah about-us sekcie --}}
+    <h2>O nás</h2>
+        <div class="about-block">
+            <video autoplay muted loop playsinline class="about-video">
+                <source src="videa/tocky_zhora.mp4" type="video/mp4">
+                Váš prehliadač nepodporuje prehrávanie videa.
+            </video>
+            <div class="about-text">
+                <h3>Naša vášeň pre keramiku</h3>
+                <p>Vitajte v KERAMO, kde sa vášeň pre keramiku mení na jedinečné umelecké diela. S láskou k remeslu a detailom tvoríme originálne kúsky, ktoré dodajú vášmu domovu teplo a osobitý štýl.</p>
+            </div>
+        </div>
+        
+    
+        <div class="about-block reverse">
+            <video autoplay muted loop playsinline class="about-video">
+                <source src="videa/taniere.mp4" type="video/mp4">
+                Váš prehliadač nepodporuje prehrávanie videa.
+            </video>
+            <div class="about-text">
+                <h3>Viacero ateliérov</h3>
+                <p>Naša sieť ateliérov po celom Slovensku umožňuje tvorbu rôznych štýlov a kolekcií. Každý ateliér má svoj rukopis, čím vznikajú unikátne produkty s dušou.</p>
+            </div>
+        </div>
+        
+        <div class="about-block">
+            <video autoplay muted loop playsinline class="about-video">
+                <source src="videa/malovanie.mp4" type="video/mp4">
+                Váš prehliadač nepodporuje prehrávanie videa.
+            </video>
+            <div class="about-text">
+                <h3>Spolupracujeme s umelcami</h3>
+                <p>Podporujeme lokálnych umelcov, keramikov a tvorcov. V KERAMO nájdete nielen produkty našej značky, ale aj tvorbu talentovaných ľudí z rôznych regiónov.</p>
+            </div>
+        </div>
 </section>
 
 <section class="newsletter-section">
