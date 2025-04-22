@@ -64,14 +64,15 @@ Route::get('/confirm', function () {
 
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/profile', [LoginController::class, 'showProfile'])->name('profile')->middleware('auth');
-
-
 
 Route::get('/produkt/{slug}', function ($slug) {
     $produkty = [
