@@ -8,7 +8,9 @@
             <label for="search-toggle" class="search-icon">
                 <i class="fas fa-search"></i>
             </label>
-            <input type="text" class="search-input" placeholder="Hľadať..." />
+            <form action="{{ route('search') }}" method="GET">
+                <input type="text" name="query" class="search-input" placeholder="Hľadať..." required />
+            </form>
         </li>
         <li><a href="{{ route('favorit') }}" class="heart-icon"><i class="far fa-heart"></i></a></li>
         <li>
@@ -17,7 +19,6 @@
             </a>
         </li>        
         <li><a href="{{ route('basket') }}" class="cart-icon"><i class="fas fa-shopping-cart"></i></a></li>
-        
     </ul>
     <label for="menu-toggle" class="menu-icon">
         <i class="fas fa-bars"></i>
@@ -25,7 +26,7 @@
     <input type="checkbox" id="menu-toggle" class="menu-checkbox">
     <div class="popup-menu">
         <div class="popup-content">
-            <label for="menu-toggle" class="close-btn">&times;</label>
+            <label for="menu-toggle" class="close-btn">×</label>
             <ul>
                 <li><a href="{{ route('home') }}">Domov</a></li>
                 <li><a href="{{ route('cups') }}">Poháre</a></li>           

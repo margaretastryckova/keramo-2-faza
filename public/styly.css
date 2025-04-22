@@ -211,44 +211,33 @@ header img {
 }
 
 
-/* Skryty  checkbox */
+/* Skrytý checkbox */
 .search-toggle {
     display: none;
-  }
-  
-  /* Input je defaultne skrytý */
-.search-input {
-    display: none;
-    padding: 5px;
-    font-size: 16px;
-    border: 1px solid #070707;
-    border-radius: 4px;
-    margin-left: 10px;
 }
-  
-/* Keď je checkbox zaškrtnutý, input sa zobrazí */
-.search-toggle:checked ~ .search-input {
-display: inline-block;
-width: 200px; /* Šírka inputu */
-}
-  
-  /* Skrytý input pre vyhľadávanie */
-.search-input {
-    display: none;
-    padding: 8px 12px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 20px;    
-    background-color: white; 
-    width: 250px;            
-}
-
 
 /* Ikona vyhľadávania */
 .search-icon {
     cursor: pointer;
     color: black;
     font-size: 21px;
+}
+
+/* Input je defaultne skrytý */
+.search-input {
+    display: none;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: white;
+    width: 250px;
+    margin-left: 10px;
+}
+
+/* Keď je checkbox zaškrtnutý, input sa zobrazí */
+.search-toggle:checked ~ form .search-input {
+    display: inline-block;
 }
 
 li.active {
@@ -1302,10 +1291,11 @@ body.favorite-page .heart-icon i {
     align-items: center;
     margin-top: 20px;
     gap: 5px;
+    font-family: Arial, sans-serif;
 }
 
 .pagination button {
-    color:black;
+    color: black;
     background-color: #ebe2d1;
     border: none;
     padding: 8px 12px;
@@ -1313,10 +1303,18 @@ body.favorite-page .heart-icon i {
     cursor: pointer;
     font-size: 25px;
     border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
 .pagination button:hover {
     background-color: #555;
+    color: white;
+}
+
+.pagination button.disabled {
+    color: gray;
+    background-color: #f0f0f0;
+    cursor: not-allowed;
 }
 
 .pagination .page-number {
@@ -1327,11 +1325,28 @@ body.favorite-page .heart-icon i {
     border-radius: 5px;
 }
 
+.pagination .page-number:hover {
+    background-color: #ebe2d1;
+    color: black;
+}
+
 .pagination .active-page {
     color: black;
     font-weight: bold;
+    background-color: #d3c8a6; /* Jemnejší odtieň pre aktívnu stránku */
 }
 
+.pagination span {
+    font-size: 14px;
+    color: gray;
+    margin-left: 10px;
+}
+
+.pagination .pagination-link {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
 .filter-container {
     grid-column: 1 / -1; 
     margin-bottom: 1rem;
