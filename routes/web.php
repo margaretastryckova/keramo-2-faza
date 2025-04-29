@@ -34,9 +34,9 @@ Route::get('/myprofile', function () {
     return view('myprofile');
 })->name('myprofile');
 
-Route::get('/cart', function () {
-    return view('cart');
-})->name('cart');
+Route::get('/basket', function () {
+    return view('basket');
+})->name('basket');
 
 Route::get('/checkoutt', function () {
     return view('checkoutt');
@@ -57,3 +57,15 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/profile', [LoginController::class, 'showProfile'])->name('profile')->middleware('auth');
 
+
+
+
+use App\Http\Controllers\CartController;
+
+Route::post('/cart/add/{slug}', [CartController::class, 'add'])->name('cart.add');
+
+
+use App\Http\Controllers\FavoriteController;
+
+
+Route::post('/favorites/add/{slug}', [FavoriteController::class, 'add'])->name('favorites.add');

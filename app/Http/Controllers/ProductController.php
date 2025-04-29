@@ -61,7 +61,12 @@ class ProductController extends Controller
     public function show($slug)
     {
         $product = Product::where('slug', $slug)->firstOrFail();
-        return view('detail', compact('product'));
+        $suggestedProducts = Product::where('kategoria', $product->kategoria)
+            ->where('id', '!=', $product->id)
+            ->inRandomOrder()
+            ->take(3)
+            ->get();
+        return view('detail', compact('product', 'suggestedProducts'));
     }
 
     // Plnotextové vyhľadávanie
