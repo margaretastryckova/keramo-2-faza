@@ -34,9 +34,9 @@ Route::get('/myprofile', function () {
     return view('myprofile');
 })->name('myprofile');
 
-Route::get('/basket', function () {
-    return view('basket');
-})->name('basket');
+Route::get('/cart', function () {
+    return view('cart');
+})->name('cart');
 
 Route::get('/checkoutt', function () {
     return view('checkoutt');
@@ -56,3 +56,4 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/profile', [LoginController::class, 'showProfile'])->name('profile')->middleware('auth');
+

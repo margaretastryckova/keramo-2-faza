@@ -78,8 +78,40 @@
         </div>
     @endforeach
 
-    <div class="pagination">
-        {{ $products->appends(request()->query())->links() }}
-    </div>
+    @if ($products->hasPages())
+        <div class="pagination">
+            <!-- Šípka "Previous" -->
+            @if ($products->onFirstPage())
+                <button class="disabled" aria-disabled="true">«</button>
+            @else
+                <a href="{{ $products->previousPageUrl() }}" class="pagination-link">
+                    <button>«</button>
+                </a>
+            @endif
+
+            <!-- Čísla stránok -->
+            @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+                @if ($page == $products->currentPage())
+                    <span class="page-number active-page">{{ $page }}</span>
+                @else
+                    <a href="{{ $url }}" class="pagination-link">
+                        <span class="page-number">{{ $page }}</span>
+                    </a>
+                @endif
+            @endforeach
+
+            <!-- Šípka "Next" -->
+            @if ($products->hasMorePages())
+                <a href="{{ $products->nextPageUrl() }}" class="pagination-link">
+                    <button>»</button>
+                </a>
+            @else
+                <button class="disabled" aria-disabled="true">»</button>
+            @endif
+
+            <!-- Text "Showing 1 to 10 of 11 results" -->
+            <span>Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} results</span>
+        </div>
+    @endif
 </section>
 @endsection
