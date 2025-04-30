@@ -21,4 +21,10 @@ class Product extends Model
         'kategoria',
         'farba',
     ];
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
+    }
+
 }

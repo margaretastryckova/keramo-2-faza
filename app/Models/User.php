@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Product;
 
 class User extends Authenticatable
 {
@@ -21,4 +23,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'newsletter' => 'boolean',
     ];
+
+    /**
+     * Vzťah na obľúbené produkty používateľa.
+     */
+    public function favorites(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'favorites')->withTimestamps();
+    }
 }

@@ -71,11 +71,15 @@
             <h3>{{ $product->nazov }}</h3>
             <p>{{ $product->popis }}</p>
             <p class="price">{{ number_format($product->cena, 2) }}€</p>
-            <input type="checkbox" id="f{{ $product->id }}" class="favorite-checkbox">
-            <label for="f{{ $product->id }}" class="heart-icon">
-                <i class="fas fa-heart"></i>
-            </label>
+
+            <form action="{{ route('favorites.add', ['slug' => $product->slug]) }}" method="POST" class="favorite-form">
+                @csrf
+                <button type="submit" class="heart-icon favorite-button">
+                    <i class="fas fa-heart"></i>
+                </button>
+            </form>
         </div>
+
     @endforeach
 
     @if ($products->hasPages())
