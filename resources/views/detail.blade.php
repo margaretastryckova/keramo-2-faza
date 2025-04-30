@@ -11,30 +11,25 @@
         <div class="info-container">
             <h2>{{ $product->nazov }}</h2>
             <p class="description">{{ $product->popis }}</p>
-            <p class="price">Cena: {{ number_format($product->cena, 2) }}€</p>
+            <p class="price">Cena: <span id="price-display">{{ number_format($product->cena, 2) }}</span>€</p>
 
-            <div class="quantity">
-                <label for="pocet">Počet kusov:</label>
+            
+            <div class="detail-purchase-box">
                 <form id="cart-form" action="{{ route('cart.add', ['slug' => $product->slug]) }}" method="POST">
                     @csrf
-                    <select id="pocet" name="quantity">
-                        <option value="1">1 ks</option>
-                        <option value="2">2 ks</option>
-                        <option value="3">3 ks</option>
-                        <option value="4">4 ks</option>
-                        <option value="5">5 ks</option>
-                    </select>
+                    <div class="cart-column">
+                        <span class="cart-label">Množstvo:</span>
+                        <input type="number" id="quantity1" name="quantity" min="1" value="1" class="quantity-input">
+                    </div>
                     <button type="submit" class="cart"><i class="fas fa-shopping-cart"></i> Pridať do košíka</button>
                 </form>
-            </div>
 
-            <div class="detail-buttons">
-                <!-- Favorite button (placeholder, requires additional logic) -->
-                <form action="{{ route('favorites.add', ['slug' => $product->slug]) }}" method="POST">
+                <form action="{{ route('favorites.add', ['slug' => $product->slug]) }}" method="POST" class="favorite-form">
                     @csrf
                     <button type="submit" class="favorite"><i class="fas fa-heart"></i> Pridať medzi obľúbené</button>
                 </form>
             </div>
+
 
             <!-- Popup for cart confirmation -->
             @if (session('success'))
@@ -112,4 +107,19 @@
             @endforelse
         </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const quantityInput = document.getElementById('quantity1');
+            const priceDisplay = document.getElementById('price-display');
+            const unitPrice = {{ $product->cena }};
+
+            quantityInput.addEventListener('input', function () {
+                const quantity = parseInt(quantityInput.value) || 1;
+                const total = (unitPrice * quantity).toFixed(2);
+                priceDisplay.textContent = total;
+            });
+        });
+    </script>
+
 @endsection

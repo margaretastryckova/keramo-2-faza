@@ -708,6 +708,18 @@ footer {
     align-items: center;
 }
 
+.detail-purchase-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.detail-purchase-box .favorite-form {
+    display: flex;
+    justify-content: center;
+}
+
 
 button {
     padding: 10px 15px;
@@ -784,6 +796,18 @@ button {
     font-size: 1.1em;
     padding: 5px 0;
 }
+
+.detail-purchase-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.detail-purchase-box .cart {
+    margin-top: 10px;
+}
+
 
 
 /* recenzie */
