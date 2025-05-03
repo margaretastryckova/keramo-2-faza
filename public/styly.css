@@ -464,6 +464,11 @@ li.active {
     transition: color 0.3s ease;
 }
 
+.favorite-button.favorited i {
+    color: #5c3b0c;
+}
+
+
 .favorite-checkbox:checked + .heart-icon {
     color:#5c3b0c;
 }

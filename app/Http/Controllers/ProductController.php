@@ -54,7 +54,12 @@ class ProductController extends Controller
         // Stránkovanie (10 produktov na stránku)
         $products = $query->paginate(10);
 
-        return view('cups', compact('products'));
+        $favoritedIds = [];
+        if (auth()->check()) {
+            $favoritedIds = auth()->user()->favorites()->pluck('product_id')->toArray();
+        }
+
+        return view('cups', compact('products', 'favoritedIds'));
     }
 
     // Detail produktu

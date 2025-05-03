@@ -26,5 +26,22 @@ class FavoriteController extends Controller
         $favorites = Auth::user()->favorites;
         return view('favorit', compact('favorites'));
     }
+
+    public function toggle(Request $request)
+    {
+        $product = Product::where('slug', $request->slug)->firstOrFail();
+        $user = Auth::user();
+
+        $attached = $user->favorites()->where('product_id', $product->id)->exists();
+
+        if ($attached) {
+            $user->favorites()->detach($product->id);
+            return response()->json(['favorited' => false]);
+        } else {
+            $user->favorites()->attach($product->id);
+            return response()->json(['favorited' => true]);
+        }
+    }
+
     
 }

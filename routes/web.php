@@ -28,6 +28,7 @@ Route::get('/search', [ProductController::class, 'search'])->name('search');
 // Obľúbené produkty
 Route::get('/favorit', [FavoriteController::class, 'index'])->middleware('auth')->name('favorit');
 Route::post('/favorites/add/{slug}', [FavoriteController::class, 'add'])->middleware('auth')->name('favorites.add');
+Route::post('/favorites/toggle', [FavoriteController::class, 'toggle'])->middleware('auth')->name('favorites.toggle');
 
 
 // Košík
@@ -47,6 +48,10 @@ Route::get('/checkoutt', function () {
 Route::get('/confirm', function () {
     return view('confirm');
 })->name('confirm');
+Route::get('/cart', function () {
+    return 'Košík zatiaľ nie je implementovaný.';
+})->name('cart.index');
+
 
 // Registrácia a prihlásenie
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');

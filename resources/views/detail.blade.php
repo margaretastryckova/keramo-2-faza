@@ -24,10 +24,14 @@
                     <button type="submit" class="cart"><i class="fas fa-shopping-cart"></i> Pridať do košíka</button>
                 </form>
 
-                <form action="{{ route('favorites.add', ['slug' => $product->slug]) }}" method="POST" class="favorite-form">
+                <form method="POST" class="favorite-form">
                     @csrf
-                    <button type="submit" class="favorite"><i class="fas fa-heart"></i> Pridať medzi obľúbené</button>
+                    <button type="button" class="favorite favorite-button-detail" data-slug="{{ $product->slug }}">
+                        <i class="fas fa-heart"></i> Pridať medzi obľúbené
+                    </button>
                 </form>
+
+
             </div>
 
 
@@ -107,19 +111,66 @@
             @endforelse
         </div>
     </section>
+@endsection
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const quantityInput = document.getElementById('quantity1');
-            const priceDisplay = document.getElementById('price-display');
-            const unitPrice = {{ $product->cena }};
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Skript na prepočet ceny podľa množstva
+        const quantityInput = document.getElementById('quantity1');
+        const priceDisplay = document.getElementById('price-display');
+        const unitPrice = {{ $product->cena }};
 
+        if (quantityInput && priceDisplay) {
             quantityInput.addEventListener('input', function () {
                 const quantity = parseInt(quantityInput.value) || 1;
                 const total = (unitPrice * quantity).toFixed(2);
                 priceDisplay.textContent = total;
             });
-        });
-    </script>
+        }
 
-@endsection
+        // Skript na obľúbené tlačidlo
+        const detailButton = document.querySelector('.favorite-button-detail');
+        if (detailButton) {
+            fetch("{{ route('favorites.toggle') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ slug: detailButton.getAttribute('data-slug') })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Získať stav a aktualizovať tlačidlo
+                if (data.favorited) {
+                    detailButton.innerHTML = '<i class="fas fa-heart"></i> Odstrániť z obľúbených';
+                }
+            });
+
+            detailButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                const slug = this.getAttribute('data-slug');
+
+                fetch("{{ route('favorites.toggle') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ slug: slug })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.favorited) {
+                        detailButton.innerHTML = '<i class="fas fa-heart"></i> Odstrániť z obľúbených';
+                    } else {
+                        detailButton.innerHTML = '<i class="fas fa-heart"></i> Pridať medzi obľúbené';
+                    }
+                })
+                .catch(error => console.error('Chyba pri úprave obľúbených:', error));
+            });
+        }
+    });
+</script>
+@endpush
