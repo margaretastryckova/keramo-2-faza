@@ -3,6 +3,32 @@
 @section('title', "{{ $product->nazov }} - Keramo.sk")
 
 @section('content')
+    @if(session('cart_popup'))
+    <div class="cart-popup" style="right: 0;">
+        <div class="cart-popup-content">
+            <a href="{{ route('cups') }}" class="close-btn">×</a>
+            <h2>Produkt bol pridaný do košíka</h2>
+            <div class="cart-item-summary">
+            @php $popup = session('cart_popup'); @endphp
+
+            <img src="{{ asset($popup['obrazok']) }}" alt="{{ $popup['nazov'] }}" class="cart-item-image">
+            <div class="cart-item-info">
+                <p class="cart-item-name">{{ $popup['nazov'] }}</p>
+                <p class="cart-item-price">Cena: {{ number_format($popup['cena'], 2) }}€</p>
+                <p class="cart-item-quantity">Množstvo: {{ $popup['quantity'] }}</p>
+            </div>
+
+  
+                
+            </div>
+            <div class="cart-buttons">
+                <a href="{{ route('cart.index') }}" class="go-to-cart">Prejsť do košíka</a>
+                <a href="{{ url()->previous() }}" class="continue-shopping">Pokračovať v nákupe</a>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <!-- Detail produktu -->
     <section class="container">
         <div class="image-container">
