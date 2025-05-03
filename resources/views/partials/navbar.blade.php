@@ -18,7 +18,7 @@
                 <i class="far fa-user"></i>
             </a>
         </li>        
-        <li><a href="{{ route('basket') }}" class="cart-icon"><i class="fas fa-shopping-cart"></i></a></li>
+        <li><a href="{{ route('cart.index') }}" class="cart-icon"><i class="fas fa-shopping-cart"></i></a></li>
     </ul>
     <label for="menu-toggle" class="menu-icon">
         <i class="fas fa-bars"></i>

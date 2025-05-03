@@ -49,8 +49,9 @@ Route::get('/confirm', function () {
     return view('confirm');
 })->name('confirm');
 Route::get('/cart', function () {
-    return 'Košík zatiaľ nie je implementovaný.';
+    return view('cart');
 })->name('cart.index');
+
 
 
 // Registrácia a prihlásenie
@@ -61,7 +62,12 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+
 // Dodatočné statické stránky
-Route::get('/registration', function () {
-    return view('registration');
+Route::get('/registration', function () {return view('registration');
 })->name('registration');
+
+
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+
