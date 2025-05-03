@@ -26,8 +26,12 @@
 
                 <form method="POST" class="favorite-form">
                     @csrf
-                    <button type="button" class="favorite favorite-button-detail" data-slug="{{ $product->slug }}">
-                        <i class="fas fa-heart"></i> Pridať medzi obľúbené
+                    <button type="button"
+                        class="favorite favorite-button-detail"
+                        data-slug="{{ $product->slug }}"
+                        data-initial-favorited="{{ $isFavorited ? 'true' : 'false' }}">
+                        <i class="fas fa-heart"></i>
+                        {{ $isFavorited ? 'Odstrániť z obľúbených' : 'Pridať medzi obľúbené' }}
                     </button>
                 </form>
 
@@ -129,25 +133,19 @@
             });
         }
 
-        // Skript na obľúbené tlačidlo
+        // Skript na obľúbené tlačidlo na detaile
         const detailButton = document.querySelector('.favorite-button-detail');
         if (detailButton) {
-            fetch("{{ route('favorites.toggle') }}", {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ slug: detailButton.getAttribute('data-slug') })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Získať stav a aktualizovať tlačidlo
-                if (data.favorited) {
-                    detailButton.innerHTML = '<i class="fas fa-heart"></i> Odstrániť z obľúbených';
-                }
-            });
+            const isInitiallyFavorited = detailButton.getAttribute('data-initial-favorited') === 'true';
 
+            // Zobraz správny text hneď po načítaní
+            if (isInitiallyFavorited) {
+                detailButton.innerHTML = '<i class="fas fa-heart"></i> Odstrániť z obľúbených';
+            } else {
+                detailButton.innerHTML = '<i class="fas fa-heart"></i> Pridať medzi obľúbené';
+            }
+
+            // Reakcia na klik
             detailButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 const slug = this.getAttribute('data-slug');

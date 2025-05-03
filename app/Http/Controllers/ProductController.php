@@ -66,13 +66,21 @@ class ProductController extends Controller
     public function show($slug)
     {
         $product = Product::where('slug', $slug)->firstOrFail();
+
+        $isFavorited = false;
+        if (auth()->check()) {
+            $isFavorited = auth()->user()->favorites()->where('product_id', $product->id)->exists();
+        }
+
         $suggestedProducts = Product::where('kategoria', $product->kategoria)
             ->where('id', '!=', $product->id)
             ->inRandomOrder()
             ->take(3)
             ->get();
-        return view('detail', compact('product', 'suggestedProducts'));
+
+        return view('detail', compact('product', 'suggestedProducts', 'isFavorited'));
     }
+
 
     // Plnotextové vyhľadávanie
     public function search(Request $request)
