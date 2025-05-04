@@ -2256,6 +2256,37 @@ input, select, .btn-primary {
 }
 
 
+.required-star {
+    color: red;
+    font-size: 1.2em;
+    margin-left: 4px;
+}
+.form-group label {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.error {
+    border-color: 2px solid red !important;
+}
+
+.form-group .text-danger {
+    color: red;
+    font-size: 0.9em;
+    margin-top: -8px;
+    margin-bottom: 10px;
+    display: block;
+}
+.delivery-options label, .payment-options label {
+    display: block;
+    margin-bottom: 5px;
+}
 
 /* Pre obrazovky menšie ako 300px */
 @media only screen and (max-width: 300px) {

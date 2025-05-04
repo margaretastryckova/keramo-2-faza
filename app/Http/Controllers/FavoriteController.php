@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+
+use App\Models\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +14,8 @@ class FavoriteController extends Controller
     public function add($slug)
     {
         $product = Product::where('slug', $slug)->firstOrFail();
-        $user = Auth::user();
+        $user = User::user();
+        
 
         if ($user->favorites()->where('product_id', $product->id)->exists()) {
             return redirect()->back()->with('success', 'Produkt je už v obľúbených.');
@@ -30,7 +34,7 @@ class FavoriteController extends Controller
     public function toggle(Request $request)
     {
         $product = Product::where('slug', $request->slug)->firstOrFail();
-        $user = Auth::user();
+        $user = User::user();
 
         $attached = $user->favorites()->where('product_id', $product->id)->exists();
 
