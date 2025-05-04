@@ -1,5 +1,3 @@
-<?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Product;
@@ -7,7 +5,6 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    // Pridanie do košíka
     public function add(Request $request, $slug)
     {
         $product = Product::where('slug', $slug)->firstOrFail();
@@ -39,7 +36,6 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Produkt bol pridaný do košíka!');
     }
 
-    // Aktualizácia množstva
     public function update(Request $request)
     {
         $cart = session()->get('cart', []);
@@ -51,10 +47,18 @@ class CartController extends Controller
             session()->put('cart', $cart);
         }
 
-        return redirect()->route('cart.index');
+        // Prepočet celkovej sumy
+        $total = 0;
+        foreach ($cart as $item) {
+            $total += $item['cena'] * $item['quantity'];
+        }
+
+        return response()->json([
+            'success' => true,
+            'new_total' => $total
+        ]);
     }
 
-    // Odstránenie produktu z košíka
     public function remove(Request $request)
     {
         $cart = session()->get('cart', []);

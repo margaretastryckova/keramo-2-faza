@@ -29,21 +29,22 @@
                     <div class="cart-details">
                         <h3>{{ $item['nazov'] }}</h3>
                         <div class="cart-info">
-                            <form method="POST" action="{{ route('cart.update') }}">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $item['id'] }}">
+                            <div class="cart-column">
+                                <span class="cart-label">Cena spolu:</span>
+                                <span class="price price-total" data-id="{{ $item['id'] }}">
+                                    <strong>{{ number_format($item['cena'] * $item['quantity'], 2) }}€</strong>
+                                </span>
+                            </div>
 
-                                <div class="cart-column">
-                                    <span class="cart-label">Cena:</span>
-                                    <span class="price">{{ number_format($item['cena'], 2) }}€</span>
-                                </div>
-
-                                <div class="cart-column">
-                                    <span class="cart-label">Množstvo:</span>
-                                    <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" class="quantity-input">
-                                    <button type="submit" class="update-btn">Uložiť</button>
-                                </div>
-                            </form>
+                            <div class="cart-column">
+                                <span class="cart-label">Množstvo:</span>
+                                <input type="number"
+                                       class="quantity-input"
+                                       data-id="{{ $item['id'] }}"
+                                       data-unit-price="{{ $item['cena'] }}"
+                                       min="1"
+                                       value="{{ $item['quantity'] }}">
+                            </div>
                         </div>
                     </div>
 
@@ -62,7 +63,6 @@
                         </div>
                     </div>
                 </div>
-
             @empty
                 <p>Košík je prázdny.</p>
             @endforelse
@@ -89,5 +89,37 @@
     function closeDeletePopup(id) {
         document.getElementById('delete-popup-' + id).style.display = 'none';
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.quantity-input').forEach(function(input) {
+            input.addEventListener('input', function () {
+                const id = this.getAttribute('data-id');
+                const unitPrice = parseFloat(this.getAttribute('data-unit-price'));
+                const quantity = parseInt(this.value) || 1;
+
+                // Prepočet ceny pre produkt
+                const priceSpan = document.querySelector(`.price-total[data-id="${id}"]`);
+                const newTotal = (unitPrice * quantity).toFixed(2);
+                priceSpan.innerHTML = `<strong>${newTotal}€</strong>`;
+
+                // AJAX na uloženie do session
+                fetch("{{ route('cart.update') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ id: id, quantity: quantity })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.new_total !== undefined) {
+                        document.querySelector('.total-price').textContent = data.new_total.toFixed(2) + '€';
+                    }
+                })
+                .catch(err => console.error('Chyba pri ukladaní množstva:', err));
+            });
+        });
+    });
 </script>
 @endpush
