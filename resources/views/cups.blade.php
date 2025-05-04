@@ -13,11 +13,18 @@
         <form class="filter-options" method="GET" action="{{ route('cups') }}">
             <div class="price-section">
                 <label>Cena:</label>
-                <input type="range" id="price_range" name="price_max" min="0" max="500" value="{{ request('price_max', 500) }}" step="1" class="price_range">
+                <div class="price-range-wrapper">
+                    <div id="range-track"></div> <!-- Farebný pás -->
+                    <input type="range" id="price_min" name="price_min" min="0" max="150" value="{{ request('price_min', 0) }}" step="1">
+                    <input type="range" id="price_max" name="price_max" min="0" max="150" value="{{ request('price_max', 150) }}" step="1">
+                </div>
                 <div class="price-range-values">
-                    <span id="price-min">0</span> - <span id="price-max">{{ request('price_max', 500) }}</span>
+                    <span id="price-min-value">{{ request('price_min', 0) }}</span>€ - 
+                    <span id="price-max-value">{{ request('price_max', 150) }}</span>€
                 </div>
             </div>
+
+
             <div class="filter-section">
                 <label>Farba:</label>
                 <div class="color-options">
@@ -37,6 +44,18 @@
                         <input type="radio" name="color" value="zelená" {{ request('color') == 'zelená' ? 'checked' : '' }}>
                         <span class="color-box" style="background-color: green;"></span> Zelená
                     </label>
+                    <label>
+                        <input type="radio" name="color" value="hnedá" {{ request('color') == 'hnedá' ? 'checked' : '' }}>
+                        <span class="color-box" style="background-color: brown;"></span> Hnedá
+                    </label>
+                    <label>
+                        <input type="radio" name="color" value="ružová" {{ request('color') == 'ružová' ? 'checked' : '' }}>
+                        <span class="color-box" style="background-color: pink;"></span> Ružová
+                    </label>
+                    <label>
+                        <input type="radio" name="color" value="žltá" {{ request('color') == 'žltá' ? 'checked' : '' }}>
+                        <span class="color-box" style="background-color: yellow;"></span> Žltá
+                    </label>
                 </div>
             </div>
             <div class="filter-section">
@@ -45,8 +64,9 @@
                 <label><input type="radio" name="size" value="stredný" {{ request('size') == 'stredný' ? 'checked' : '' }}> Stredné</label>
                 <label><input type="radio" name="size" value="veľký" {{ request('size') == 'veľký' ? 'checked' : '' }}> Veľké</label>
             </div>
-            <button type="submit">Aplikovať filtre</button>
-        </form>
+            <button type="submit" id="apply">Aplikovať filtre</button>
+            <button type="button" id="reset">Vymazať filtre</button>
+            </form>
     </div>
 
     <div class="sort-container">
@@ -148,5 +168,72 @@
             });
         });
     });
+</script>
+@endpush
+
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const minInput = document.getElementById('price_min');
+    const maxInput = document.getElementById('price_max');
+    const minLabel = document.getElementById('price-min-value');
+    const maxLabel = document.getElementById('price-max-value');
+    const rangeTrack = document.getElementById('range-track');
+
+    const sliderMin = parseInt(minInput.min);
+    const sliderMax = parseInt(minInput.max);
+
+    function updateSlider() {
+        let minval = parseInt(minInput.value);
+        let maxval = parseInt(maxInput.value);
+
+        // Fix na prekríženie
+        if (minval > maxval) {
+            [minval, maxval] = [maxval, minval];
+        }
+
+        minLabel.textContent = minval;
+        maxLabel.textContent = maxval;
+
+        const percentMin = ((minval - sliderMin) / (sliderMax - sliderMin)) * 100;
+        const percentMax = ((maxval - sliderMin) / (sliderMax - sliderMin)) * 100;
+
+        rangeTrack.style.left = percentMin + '%';
+        rangeTrack.style.width = (percentMax - percentMin) + '%';
+    }
+
+    minInput.addEventListener('input', updateSlider);
+    maxInput.addEventListener('input', updateSlider);
+
+    updateSlider();
+});
+
+</script>
+@endpush
+
+
+@push('scripts')
+<script>
+document.getElementById('reset').addEventListener('click', function () {
+    const form = document.querySelector('.filter-options');
+    
+    // Vyčistiť všetky inputy v rámci formulára
+    form.querySelectorAll('input, select').forEach(el => {
+        if (el.type === 'checkbox' || el.type === 'radio') {
+            el.checked = false;
+        } else if (el.type === 'range') {
+            if (el.id === 'price_min') el.value = el.min;
+            else if (el.id === 'price_max') el.value = el.max;
+        } else {
+            el.value = '';
+        }
+    });
+
+    document.getElementById('price-min-value').textContent = document.getElementById('price_min').value;
+    document.getElementById('price-max-value').textContent = document.getElementById('price_max').value;
+
+    form.submit();
+});
 </script>
 @endpush

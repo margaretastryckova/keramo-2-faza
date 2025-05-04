@@ -18,8 +18,11 @@ class ProductController extends Controller
         }
 
         // Filtrovanie podľa ceny
-        if ($request->has('price_min') && $request->has('price_max')) {
-            $query->whereBetween('cena', [$request->price_min, $request->price_max]);
+        if (request()->has('price_min') && request()->has('price_max')) {
+            $query->whereBetween('cena', [
+                request('price_min', 0),
+                request('price_max', 150)
+            ]);
         }
 
         // Filtrovanie podľa farby
