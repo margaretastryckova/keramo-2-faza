@@ -72,8 +72,8 @@
             <h3>Medzisúčet: <span class="total-price">{{ number_format($total, 2) }}€</span></h3>
             <p>Doprava bude vypočítaná pri pokladni.</p>
             <div class="kosik-buttons">
-                <a href="{{ url()->previous() }}" class="continue-shopping">← Pokračovať v nákupe</a>
-                <a href="{{ route('checkoutt') }}" class="checkout-btn">Pokračovať k pokladni</a>
+            <a href="{{ route('home') }}#kategorie" class="continue-shopping">← Pokračovať v nákupe</a>
+            <a href="{{ route('checkoutt') }}" class="checkout-btn">Pokračovať k pokladni</a>
             </div>
         </div>
     </section>
