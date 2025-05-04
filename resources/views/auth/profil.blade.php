@@ -12,7 +12,6 @@
                 </label>
                 <input type="checkbox" id="profile-toggle" class="toggle-input">
                 <div class="dropdown-content">
-                    <a href="#">Zmeniť profilovú fotku</a>
                     <a href="#">Zmeniť heslo</a>
                     <a href="#">Vybrať jazyk</a>
                     <a href="#">Vybrať krajinu</a>
@@ -37,8 +36,8 @@
                 </label>
                 <input type="checkbox" id="orders-toggle" class="toggle-input">
                 <div class="dropdown-content">
-                    <a href="#">Zobraziť všetky objednávky</a>
-                    <a href="#">Sledovať objednávku</a>
+                <a href="{{ route('orders.index') }}">Zobraziť všetky objednávky</a>
+                <a href="#">Sledovať objednávku</a>
                     <a href="#">Prijaté objednávky</a>
                 </div>
             </li>

@@ -74,3 +74,8 @@ Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remov
 
 
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
+
+Route::get('/moje-objednavky', [App\Http\Controllers\OrderController::class, 'index'])
+    ->middleware('auth')
+    ->name('orders.index');
