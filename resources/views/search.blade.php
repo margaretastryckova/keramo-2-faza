@@ -16,6 +16,11 @@
                 </a>
                 <h3>{{ $product->nazov }}</h3>
                 <p>{{ $product->popis }}</p>
+
+                @if ($product->farba)
+                    <p>Farba: {{ $product->farba }}</p> <!-- Zobrazenie farby, ak existuje -->
+                @endif
+
                 <p class="price">{{ number_format($product->cena, 2) }}€</p>
                 <input type="checkbox" id="f{{ $product->id }}" class="favorite-checkbox">
                 <label for="f{{ $product->id }}" class="heart-icon">

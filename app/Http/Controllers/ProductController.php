@@ -87,11 +87,41 @@ class ProductController extends Controller
     {
         $query = $request->input('query');
         $searchTerm = '%' . $query . '%';
+    
         $products = Product::whereRaw("LOWER(TRANSLATE(nazov, 'áäčďéíľňóôŕšťúýž', 'aacdeilnorstuyz')) LIKE LOWER(TRANSLATE(?, 'áäčďéíľňóôŕšťúýž', 'aacdeilnorstuyz'))", [$searchTerm])
             ->orWhereRaw("LOWER(TRANSLATE(popis, 'áäčďéíľňóôŕšťúýž', 'aacdeilnorstuyz')) LIKE LOWER(TRANSLATE(?, 'áäčďéíľňóôŕšťúýž', 'aacdeilnorstuyz'))", [$searchTerm])
             ->orWhereRaw("LOWER(TRANSLATE(kategoria, 'áäčďéíľňóôŕšťúýž', 'aacdeilnorstuyz')) LIKE LOWER(TRANSLATE(?, 'áäčďéíľňóôŕšťúýž', 'aacdeilnorstuyz'))", [$searchTerm])
+            ->orWhereRaw("LOWER(TRANSLATE(farba, 'áäčďéíľňóôŕšťúýž', 'aacdeilnorstuyz')) LIKE LOWER(TRANSLATE(?, 'áäčďéíľňóôŕšťúýž', 'aacdeilnorstuyz'))", ['%' . $this->getColorVariations($searchTerm) . '%'])            
             ->paginate(10);
-
+    
         return view('search', compact('products', 'query'));
+    } 
+
+    // Pomocná metóda na spracovanie rôznych variácií farby
+    private function getColorVariations($color)
+    {
+        // Môžeš pridať ďalšie variácie podľa potreby
+        $colorVariations = [
+            'červená' => ['červený', 'červená', 'červené', 'cerveny', 'cervena', 'cervene', 'red'],
+            'modrá' => ['modrý', 'modrá', 'modré', 'modry', 'modra', 'modre', 'blue'],
+            'biela' => ['biely', 'biela', 'biele', 'white'],
+            'ružová' => ['ružový', 'ružová', 'ružové', 'ruzova', 'ruzove', 'ruzovy', 'pink'],
+            'zelená' => ['zelený', 'zelená', 'zelené', 'zelene', 'zelena', 'zeleny', 'green'],
+            'žltá' => ['žltý', 'žltá', 'žlté', 'zlta', 'zlte', 'zlty', 'yellow'],
+            'hnedá' => ['hnedý', 'hnedá', 'hnedé', 'hneda', 'hnede', 'hnedy', 'brown'],
+            'oranžová' => ['oranžový', 'oranžová', 'oranžové', 'oranzova', 'oranzove', 'oranzovy', 'orange'],
+        ];
+
+        // Hľadanie vhodnej farby
+        foreach ($colorVariations as $key => $variations) {
+            foreach ($variations as $variation) {
+                if (strpos(strtolower($color), strtolower($variation)) !== false) {
+                    return $key; // Vráti základnú farbu (napr. 'červený', 'modrý' atď.)
+                }
+            }
+        }
+
+        // Ak nie je farba rozpoznaná, vráti pôvodnú farbu
+        return $color;
     }
 }
