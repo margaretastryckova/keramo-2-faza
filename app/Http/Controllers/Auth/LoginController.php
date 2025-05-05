@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\CartItem;
 
 class LoginController extends Controller
 {
@@ -22,7 +23,11 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('profile'); // Redirect to /profile
+
+            // Zavoláme metódu na prenesenie session košíka do DB
+            $this->authenticated($request, Auth::user());
+
+            return redirect()->route('profile');
         }
 
         return back()->withErrors([
@@ -40,6 +45,24 @@ class LoginController extends Controller
 
     public function showProfile()
     {
-        return view('auth.profil'); // Points to profile.blade.php
+        return view('auth.profil');
+    }
+
+    /**
+     * Prenos session košíka do DB po prihlásení
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        $sessionCart = session('cart', []);
+        foreach ($sessionCart as $item) {
+            $cartItem = CartItem::firstOrNew([
+                'user_id' => $user->id,
+                'product_id' => $item['id'],
+            ]);
+            $cartItem->quantity += $item['quantity'];
+            $cartItem->save();
+        }
+
+        session()->forget('cart');
     }
 }

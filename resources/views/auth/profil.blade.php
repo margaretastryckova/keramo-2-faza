@@ -48,7 +48,7 @@
                 </label>
                 <input type="checkbox" id="favorites-toggle" class="toggle-input">
                 <div class="dropdown-content">
-                    <a href="#">Zobraziť obľúbené produkty</a>
+                    <a href="{{ route('favorit') }}">Zobraziť obľúbené produkty</a>
                     <a href="#">Pridať nový produkt</a>
                 </div>
             </li>

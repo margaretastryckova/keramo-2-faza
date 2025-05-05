@@ -3,47 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\CartItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
     public function store(Request $request)
-{
-    // Validácia
-    $validated = $request->validate([
-        'email' => 'required|email|max:255',
-        'meno' => 'required|string|max:255',
-        'priezvisko' => 'required|string|max:255',
-        'ulica' => 'required|string|max:255',
-        'mesto' => 'required|string|max:255',
-        'psc' => 'required|string|max:10',
-        'krajina' => 'required|string|in:Slovensko,Česko',
-        'telefon' => 'required|string|max:20',
-        'delivery' => 'required|in:kurier,odberne,osobny',
-        'payment' => 'required|in:card,dobierka,paypal',
-        'firma' => 'nullable|string|max:255',
-        'predvolba' => 'nullable|string|max:10',
-    ]);
+    {
+        $validated = $request->validate([
+            'email' => 'required|email|max:255',
+            'meno' => 'required|string|max:255',
+            'priezvisko' => 'required|string|max:255',
+            'ulica' => 'required|string|max:255',
+            'mesto' => 'required|string|max:255',
+            'psc' => 'required|string|max:10',
+            'krajina' => 'required|string|in:Slovensko,Česko',
+            'telefon' => 'required|string|max:20',
+            'delivery' => 'required|in:kurier,odberne,osobny',
+            'payment' => 'required|in:card,dobierka,paypal',
+            'firma' => 'nullable|string|max:255',
+            'predvolba' => 'nullable|string|max:10',
+        ]);
 
-    // Získanie košíka zo session
-    $cart = session('cart', []);
+        if (Auth::check()) {
+            $user = Auth::user();
+            $cartItems = CartItem::with('product')->where('user_id', $user->id)->get();
 
-    // Výpočet celkovej ceny
-    $total = collect($cart)->sum(fn($item) => $item['cena'] * $item['quantity']);
+            $cart = $cartItems->map(function ($item) {
+                return [
+                    'id' => $item->product->id,
+                    'nazov' => $item->product->nazov,
+                    'cena' => $item->product->cena,
+                    'obrazok' => $item->product->obrazok,
+                    'quantity' => $item->quantity,
+                ];
+            })->toArray();
 
-    Order::create([
-        'user_id' => Auth::id(),
-        ...$validated,
-        'predvolba' => $request->predvolba,
-        'firma' => $request->firma,
-        'items' => json_encode($cart), // Ak je to JSON pole v databáze
-        'total' => $total,
-    ]);
+            $total = collect($cart)->sum(fn($item) => $item['cena'] * $item['quantity']);
+        } else {
+            $cart = session('cart', []);
+            $total = collect($cart)->sum(fn($item) => $item['cena'] * $item['quantity']);
+        }
 
-    session()->forget('cart');
+        // Uloženie objednávky
+        Order::create([
+            'user_id' => Auth::id(),
+            ...$validated,
+            'predvolba' => $request->predvolba,
+            'firma' => $request->firma,
+            'items' => $cart, // Toto bude pole, nie string
+            'total' => $total,
+        ]);
 
-    // Presmerovanie
-    return redirect()->route('confirm')->with('success', 'Objednávka bola úspešne odoslaná.');
-}
+        // Vymazanie košíka
+        if (Auth::check()) {
+            CartItem::where('user_id', Auth::id())->delete();
+        } else {
+            session()->forget('cart');
+        }
+
+        return redirect()->route('confirm')->with('success', 'Objednávka bola úspešne odoslaná.');
+    }
+
 }

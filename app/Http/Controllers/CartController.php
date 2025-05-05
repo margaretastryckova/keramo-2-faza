@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\CartItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -12,21 +14,29 @@ class CartController extends Controller
         $product = Product::where('slug', $slug)->firstOrFail();
         $quantity = (int) $request->input('quantity', 1);
 
-        $cart = session()->get('cart', []);
-
-        if (isset($cart[$product->id])) {
-            $cart[$product->id]['quantity'] += $quantity;
+        if (Auth::check()) {
+            $user = Auth::user();
+            $cartItem = CartItem::firstOrNew([
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+            ]);
+            $cartItem->quantity += $quantity;
+            $cartItem->save();
         } else {
-            $cart[$product->id] = [
-                'id' => $product->id,
-                'nazov' => $product->nazov,
-                'cena' => $product->cena,
-                'obrazok' => $product->obrazok,
-                'quantity' => $quantity,
-            ];
+            $cart = session()->get('cart', []);
+            if (isset($cart[$product->id])) {
+                $cart[$product->id]['quantity'] += $quantity;
+            } else {
+                $cart[$product->id] = [
+                    'id' => $product->id,
+                    'nazov' => $product->nazov,
+                    'cena' => $product->cena,
+                    'obrazok' => $product->obrazok,
+                    'quantity' => $quantity,
+                ];
+            }
+            session()->put('cart', $cart);
         }
-
-        session()->put('cart', $cart);
 
         session()->flash('cart_popup', [
             'nazov' => $product->nazov,
@@ -40,19 +50,29 @@ class CartController extends Controller
 
     public function update(Request $request)
     {
-        $cart = session()->get('cart', []);
         $id = $request->input('id');
         $quantity = max(1, (int) $request->input('quantity'));
 
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity'] = $quantity;
-            session()->put('cart', $cart);
-        }
+        if (Auth::check()) {
+            $user = Auth::user();
+            $cartItem = CartItem::where('user_id', $user->id)->where('product_id', $id)->first();
+            if ($cartItem) {
+                $cartItem->quantity = $quantity;
+                $cartItem->save();
+            }
 
-        // Prepočet celkovej sumy
-        $total = 0;
-        foreach ($cart as $item) {
-            $total += $item['cena'] * $item['quantity'];
+            $total = CartItem::with('product')
+                ->where('user_id', $user->id)
+                ->get()
+                ->sum(fn($item) => $item->product->cena * $item->quantity);
+        } else {
+            $cart = session()->get('cart', []);
+            if (isset($cart[$id])) {
+                $cart[$id]['quantity'] = $quantity;
+                session()->put('cart', $cart);
+            }
+
+            $total = collect($cart)->sum(fn($item) => $item['cena'] * $item['quantity']);
         }
 
         return response()->json([
@@ -63,12 +83,18 @@ class CartController extends Controller
 
     public function remove(Request $request)
     {
-        $cart = session()->get('cart', []);
         $id = $request->input('id');
 
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-            session()->put('cart', $cart);
+        if (Auth::check()) {
+            CartItem::where('user_id', Auth::id())
+                ->where('product_id', $id)
+                ->delete();
+        } else {
+            $cart = session()->get('cart', []);
+            if (isset($cart[$id])) {
+                unset($cart[$id]);
+                session()->put('cart', $cart);
+            }
         }
 
         return redirect()->route('cart.index');

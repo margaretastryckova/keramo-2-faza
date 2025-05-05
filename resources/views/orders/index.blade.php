@@ -76,7 +76,10 @@
                             <div class="order-items">
                                 <h4>Produkty v tejto objednávke:</h4>
                                 <ul class="list-unstyled">
-                                    @foreach (json_decode($order->items, true) as $item)
+                                    @php
+                                        $items = is_array($order->items) ? $order->items : json_decode($order->items, true);
+                                    @endphp
+                                    @foreach ($items as $item)
                                         <li class="order-item">
                                             <img src="{{ asset($item['obrazok']) }}" alt="{{ $item['nazov'] }}">
                                             <div class="order-item-info">
