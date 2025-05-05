@@ -14,7 +14,8 @@ class FavoriteController extends Controller
     public function add($slug)
     {
         $product = Product::where('slug', $slug)->firstOrFail();
-        $user = User::user();
+        $user = auth()->user();
+
         
 
         if ($user->favorites()->where('product_id', $product->id)->exists()) {
@@ -34,7 +35,8 @@ class FavoriteController extends Controller
     public function toggle(Request $request)
     {
         $product = Product::where('slug', $request->slug)->firstOrFail();
-        $user = User::user();
+        $user = auth()->user();
+
 
         $attached = $user->favorites()->where('product_id', $product->id)->exists();
 
