@@ -7,6 +7,8 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ProductAdminController;
 
 // Domovská stránka
 Route::get('/home', function () {
@@ -79,3 +81,12 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 Route::get('/moje-objednavky', [App\Http\Controllers\OrderController::class, 'index'])
     ->middleware('auth')
     ->name('orders.index');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+});
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/products/create', [ProductAdminController::class, 'create'])->name('products.create');
+});

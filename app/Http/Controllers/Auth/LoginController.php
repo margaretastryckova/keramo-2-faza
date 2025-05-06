@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('profile');
+        return view('auth.login');
     }
 
     public function login(Request $request)
@@ -24,10 +24,8 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // Zavoláme metódu na prenesenie session košíka do DB
-            $this->authenticated($request, Auth::user());
-
-            return redirect()->route('profile');
+            // Zavoláme metódu na prenesenie session košíka a presmerovanie
+            return $this->authenticated($request, Auth::user());
         }
 
         return back()->withErrors([
@@ -49,10 +47,11 @@ class LoginController extends Controller
     }
 
     /**
-     * Prenos session košíka do DB po prihlásení
+     * Prenos session košíka do DB po prihlásení + presmerovanie podľa typu používateľa
      */
     protected function authenticated(Request $request, $user)
     {
+        // Prenos session košíka do DB
         $sessionCart = session('cart', []);
         foreach ($sessionCart as $item) {
             $cartItem = CartItem::firstOrNew([
@@ -64,5 +63,12 @@ class LoginController extends Controller
         }
 
         session()->forget('cart');
+
+        //  Presmerovanie podľa typu používateľa
+        if ($user->is_admin) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect()->route('profile');
     }
 }

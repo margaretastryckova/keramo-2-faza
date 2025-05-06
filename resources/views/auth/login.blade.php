@@ -2,7 +2,11 @@
 
 @section('content')
 <div class="container-profil">
-    <h3 class="text-center">Prihlásiť sa</h3>
+    <div class="profil-header-container">
+        <h2 class="text-center">Prihlásiť sa</h2>
+        <span class="divider"></span>
+        <a href="{{ route('registration') }}" class="register-link">Registrovať sa</a>
+    </div>
 
     @if (session('error'))
         <div class="alert alert-danger">
@@ -29,7 +33,11 @@
             @enderror
         </div>
 
-        <button type="submit" class="btn-profil">Prihlásiť sa</button>
+        <div class="form-group" style="text-align: right; margin-bottom: 20px;">
+            <a href="#" style="font-size: 14px; color: #007bff; text-decoration: none;">Zabudol si heslo?</a>
+        </div>
+
+        <button type="submit" class="btn-profil" style="font-size: 18px; padding: 12px; display: block; text-align: center">Prihlásiť sa</button>
     </form>
 </div>
 @endsection
