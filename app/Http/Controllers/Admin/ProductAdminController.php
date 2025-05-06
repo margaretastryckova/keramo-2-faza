@@ -72,5 +72,66 @@ class ProductAdminController extends Controller
 
         return redirect()->route('admin.menu')->with('success', 'Produkt bol úspešne pridaný.');
     }
+
+
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json(['message' => 'Produkt sa nenašiel.'], 404);
+        }
+
+        $product->delete();
+
+        return response()->json(['message' => 'Produkt bol úspešne vymazaný.']);
+    }
+
+
+    public function edit($id)
+{
+    $product = Product::findOrFail($id);
+    return view('admin_edit_product', compact('product'));
+}
+
+public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'nazov' => 'required|string|max:255',
+            'kratky_popis' => 'required|string|max:500',
+            'detailny_popis' => 'nullable|string',
+            'cena' => 'required|numeric',
+            'kategoria' => 'required|string',
+            'hlavna_fotka' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'dopl_fotky.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'objem' => 'nullable|string|max:255',
+            'rozmer' => 'nullable|string|max:255',
+            'farba' => 'nullable|string|max:255',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->nazov = $validated['nazov'];
+        $product->popis = $validated['kratky_popis'];
+        $product->detail = $validated['detailny_popis'];
+        $product->cena = $validated['cena'];
+        $product->kategoria = $validated['kategoria'];
+        $product->objem = $validated['objem'];
+        $product->rozmer = $validated['rozmer'];
+        $product->farba = $validated['farba'];
+
+        // Ak admin nahrá novú hlavnú fotku
+        if ($request->hasFile('hlavna_fotka')) {
+            $hlavnaFotka = $request->file('hlavna_fotka');
+            $hlavnaNazov = uniqid() . '_' . $hlavnaFotka->getClientOriginalName();
+            $hlavnaFotka->move(public_path('pohare'), $hlavnaNazov);
+            $product->obrazok = 'pohare/' . $hlavnaNazov;
+        }
+
+        $product->save();
+
+        return redirect()->route('admin.menu')->with('success', 'Produkt bol úspešne upravený.');
+    }
+
+
 }
 

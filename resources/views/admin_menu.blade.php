@@ -39,8 +39,23 @@
         </div>
     </div>
 </div>
+@endsection
 
+
+@push('scripts')
 <script>
+    function closeSuccessPopup() {
+        document.getElementById("popup-success").style.display = "none";
+    }
+
+    // Auto-zatvorenie po 3 sekundách
+    window.addEventListener('load', function () {
+        setTimeout(() => {
+            const popup = document.getElementById("popup-success");
+            if (popup) popup.style.display = "none";
+        }, 3000);
+    });
+
     function openPopup() {
         document.getElementById("editDeletePopup").style.display = "block";
     }
@@ -62,8 +77,10 @@
         var productId = document.getElementById("productId").value;
         if (productId) {
             if (confirm("Naozaj chcete vymazať produkt s ID " + productId + "?")) {
-                fetch("{{ url('admin/produkty/delete') }}/" + productId, {
-                    method: 'POST',
+                const url = "{{ url('admin/products/delete') }}/" + productId;
+
+                fetch(url, {
+                    method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
                         'Content-Type': 'application/json'
@@ -74,30 +91,19 @@
                         alert("Produkt bol vymazaný.");
                         closePopup();
                     } else {
-                        alert("Chyba pri mazaní produktu.");
+                        return response.json().then(data => {
+                            alert("Chyba: " + (data.message || "Nepodarilo sa vymazať produkt."));
+                        });
                     }
+                })
+                .catch(error => {
+                    console.error("Chyba:", error);
+                    alert("Nastala chyba pri spracovaní požiadavky.");
                 });
             }
         } else {
             alert("Zadajte ID produktu!");
         }
     }
-</script>
-@endsection
-
-
-@push('scripts')
-<script>
-    function closeSuccessPopup() {
-        document.getElementById("popup-success").style.display = "none";
-    }
-
-    // Auto-zatvorenie po 3 sekundách
-    window.addEventListener('load', function () {
-        setTimeout(() => {
-            const popup = document.getElementById("popup-success");
-            if (popup) popup.style.display = "none";
-        }, 3000);
-    });
 </script>
 @endpush

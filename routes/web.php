@@ -95,4 +95,10 @@ Route::get('/admin/menu', function () {
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/products/create', [ProductAdminController::class, 'create'])->name('products.create');
     Route::post('/products/store', [ProductAdminController::class, 'store'])->name('products.store');
+    Route::delete('/products/delete/{id}', [ProductAdminController::class, 'destroy'])->name('products.destroy');
+    Route::get('/products/edit/{id}', [ProductAdminController::class, 'edit'])->name('products.edit');
+    Route::post('/products/update/{id}', [ProductAdminController::class, 'update'])->name('products.update');
+
 });
+
+
