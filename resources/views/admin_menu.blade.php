@@ -1,6 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+
+@if(session('success'))
+    <div id="popup-success" class="popup-success-wrapper">
+        <div class="popup-success-content">
+            <p>{{ session('success') }}</p>
+            <button onclick="closeSuccessPopup()">OK</button>
+        </div>
+    </div>
+@endif
+
+
 <div class="admin-container">
     <h2>Ste prihlásený ako administrátor</h2>
 
@@ -73,3 +84,20 @@
     }
 </script>
 @endsection
+
+
+@push('scripts')
+<script>
+    function closeSuccessPopup() {
+        document.getElementById("popup-success").style.display = "none";
+    }
+
+    // Auto-zatvorenie po 3 sekundách
+    window.addEventListener('load', function () {
+        setTimeout(() => {
+            const popup = document.getElementById("popup-success");
+            if (popup) popup.style.display = "none";
+        }, 3000);
+    });
+</script>
+@endpush

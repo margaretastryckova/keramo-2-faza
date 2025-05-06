@@ -2116,6 +2116,73 @@ input, select, .btn-primary {
 }
 
 
+/* Globálne nastavenie obalovacieho elementu pre success popup */
+.popup-success-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Iba obsah success popupu */
+.popup-success-content {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.4s ease;
+    max-width: 400px;
+    width: 85%;
+    max-height: 200px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Text */
+.popup-success-content p {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Button */
+.popup-success-content button {
+    background-color: #5c3b0c;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.popup-success-content button:hover {
+    background-color: #422a09;
+}
+
+/* Animácia */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
 /* Všeobecné tlačidlo pre admin akcie */
 .btn-admin {
     display: inline-block;
