@@ -14,22 +14,16 @@
                     <div class="image-upload-box">
                         <label for="hlavna-fotka" class="upload-placeholder">+</label>
                         <input type="file" id="hlavna-fotka" name="hlavna_fotka" accept="image/*" required>
+                        <img id="hlavnyNahlad" style="margin-top:10px; max-height:200px;" />
                     </div>
                 </div>
 
-                <label for="dopl-fotka-1">Doplnkové fotky produktu:</label>
+                <label for="dopl-fotka">Doplnková fotka produktu:</label>
                 <div class="image-upload-row">
                     <div class="image-upload-box">
-                        <label for="dopl-fotka-1" class="upload-placeholder">+</label>
-                        <input type="file" id="dopl-fotka-1" name="dopl_fotky[]" accept="image/*">
-                    </div>
-                    <div class="image-upload-box">
-                        <label for="dopl-fotka-2" class="upload-placeholder">+</label>
-                        <input type="file" id="dopl-fotka-2" name="dopl_fotky[]" accept="image/*">
-                    </div>
-                    <div class="image-upload-box">
-                        <label for="dopl-fotka-3" class="upload-placeholder">+</label>
-                        <input type="file" id="dopl-fotka-3" name="dopl_fotky[]" accept="image/*">
+                        <label for="dopl-fotka" class="upload-placeholder">+</label>
+                        <input type="file" id="dopl-fotka" name="dopl_fotky[]" accept="image/*" required>
+                        <img id="doplnkovyNahlad" style="margin-top:10px; max-height:200px;" />
                     </div>
                 </div>
             </div>
@@ -45,9 +39,24 @@
                     <input type="text" id="kratky-popis" name="kratky_popis" value="{{ old('kratky_popis') }}" required>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="detailny-popis">Detailný popis:</label>
                     <textarea id="detailny-popis" name="detailny_popis" rows="5" required>{{ old('detailny_popis') }}</textarea>
+                </div> -->
+
+                <div class="form-group">
+                    <label for="farba">Farba:</label>
+                    <input type="text" id="farba" name="farba" value="{{ old('farba') }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="rozmer">Rozmer:</label>
+                    <input type="text" id="rozmer" name="rozmer" value="{{ old('rozmer') }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="objem">Objem:</label>
+                    <input type="text" id="objem" name="objem" value="{{ old('objem') }}" required>
                 </div>
 
                 <div class="form-group">
@@ -76,3 +85,31 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    // Náhľad hlavnej fotky
+    document.getElementById('hlavna-fotka').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('hlavnyNahlad').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Náhľad doplnkovej fotky
+    document.getElementById('dopl-fotka').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('doplnkovyNahlad').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+@endpush
