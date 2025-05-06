@@ -67,7 +67,7 @@
     function editProduct() {
         var productId = document.getElementById("productId").value;
         if (productId) {
-            window.location.href = "{{ url('admin/produkty/edit') }}/" + productId;
+            window.location.href = "{{ url('admin/products/edit') }}/" + productId;
         } else {
             alert("Zadajte ID produktu!");
         }

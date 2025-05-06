@@ -30,9 +30,24 @@
                     <input type="text" id="kratky_popis" name="kratky_popis" value="{{ old('kratky_popis', $product->popis) }}" required>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="detailny_popis">Detailný popis:</label>
                     <textarea id="detailny_popis" name="detailny_popis" rows="5">{{ old('detailny_popis', $product->detail) }}</textarea>
+                </div> -->
+
+                <div class="form-group">
+                    <label for="farba">Farba:</label>
+                    <input type="text" id="farba" name="farba" value="{{ old('farba', $product->farba) }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="rozmer">Rozmer:</label>
+                    <input type="text" id="rozmer" name="rozmer" value="{{ old('rozmer', $product->rozmer) }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="objem">Objem:</label>
+                    <input type="text" id="objem" name="objem" value="{{ old('objem', $product->objem) }}">
                 </div>
 
                 <div class="form-group">
@@ -48,21 +63,6 @@
                             <option value="{{ $kat }}" {{ old('kategoria', $product->kategoria) == $kat ? 'selected' : '' }}>{{ ucfirst($kat) }}</option>
                         @endforeach
                     </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="objem">Objem:</label>
-                    <input type="text" id="objem" name="objem" value="{{ old('objem', $product->objem) }}">
-                </div>
-
-                <div class="form-group">
-                    <label for="rozmer">Rozmer:</label>
-                    <input type="text" id="rozmer" name="rozmer" value="{{ old('rozmer', $product->rozmer) }}">
-                </div>
-
-                <div class="form-group">
-                    <label for="farba">Farba:</label>
-                    <input type="text" id="farba" name="farba" value="{{ old('farba', $product->farba) }}">
                 </div>
             </div>
         </div>

@@ -112,7 +112,7 @@ public function update(Request $request, $id)
         $product = Product::findOrFail($id);
         $product->nazov = $validated['nazov'];
         $product->popis = $validated['kratky_popis'];
-        $product->detail = $validated['detailny_popis'];
+        $product->detail = null;
         $product->cena = $validated['cena'];
         $product->kategoria = $validated['kategoria'];
         $product->objem = $validated['objem'];
