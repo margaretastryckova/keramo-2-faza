@@ -37,12 +37,26 @@
 
                 <div class="form-group">
                     <label for="farba">Farba:</label>
-                    <input type="text" id="farba" name="farba" value="{{ old('farba', $product->farba) }}">
+                    <select id="farba" name="farba" required>
+                        <option value="">-- Vyberte farbu --</option>
+                        @foreach(['červená', 'biela', 'hnedá', 'modrá', 'zelená', 'žltá', 'ružová' ] as $farba)
+                            <option value="{{ $farba }}" {{ old('farba', $product->farba) == $farba ? 'selected' : '' }}>
+                                {{ ucfirst($farba) }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="form-group">
                     <label for="rozmer">Rozmer:</label>
-                    <input type="text" id="rozmer" name="rozmer" value="{{ old('rozmer', $product->rozmer) }}">
+                    <select id="rozmer" name="rozmer" required>
+                        <option value="">-- Vyberte rozmer --</option>
+                        @foreach(['malý', 'stredný', 'veľký'] as $rozmer)
+                            <option value="{{ $rozmer }}" {{ old('rozmer', $product->rozmer) == $rozmer ? 'selected' : '' }}>
+                                {{ ucfirst($rozmer) }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="form-group">
