@@ -144,6 +144,18 @@ class ProductSeeder extends Seeder
                 'slug' => 'totoro-pohar',
                 'kategoria' => 'poháre',
                 'farba' => 'zelená',
+            ],            
+            [
+                'nazov' => 'Nizky pohár',
+                'popis' => 'Ručne malovaný, nizky pohár so zatočenou rúčkou.',
+                'cena' => 19.00,
+                'obrazok' => 'pohare/nizky_pohar.jpg',
+                'detail' => 'pohare/nizky_pohar.jpg',
+                'objem' => '150 ml',
+                'rozmer' => 'malý',
+                'slug' => 'small-cup',
+                'kategoria' => 'poháre',
+                'farba' => 'biela',
             ],
             [
                 'nazov' => 'Srdcový pohár',
@@ -153,10 +165,11 @@ class ProductSeeder extends Seeder
                 'detail' => 'pohare/srdcovy_pohar_detail.jpg',
                 'objem' => '200 ml',
                 'rozmer' => 'malý',
-                'slug' => 'srdcovy-pohar',
+                'slug' => 'heart-pohar',
                 'kategoria' => 'poháre',
                 'farba' => 'červená',
             ],
+
             
         ];
 

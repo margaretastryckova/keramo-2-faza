@@ -22,6 +22,11 @@ class ProductAdminController extends Controller
      */
     public function store(Request $request)
     {
+    // $uploadPath = public_path('pohare');
+    // dd([
+    //     'existuje' => file_exists($uploadPath),
+    //     'zapisovatelny' => is_writable($uploadPath),
+    // ]);
         $validated = $request->validate([
             'nazov' => 'required|string|max:255',
             'kratky_popis' => 'required|string|max:500',
@@ -35,6 +40,10 @@ class ProductAdminController extends Controller
             'farba' => 'nullable|string|max:255',
         ]);
 
+        if ($request->hasFile('hlavna_fotka')) {
+            $hlavnaFotka = $request->file('hlavna_fotka');
+            dd($hlavnaFotka);
+        }
         // Uloženie hlavnej fotky
         $hlavnaFotka = $request->file('hlavna_fotka');
         $hlavnaNazov = uniqid() . '_' . $hlavnaFotka->getClientOriginalName();

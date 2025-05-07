@@ -130,12 +130,12 @@
         <h2 class="suggestions-heading">Mohlo by sa vám páčiť</h2>
         <div class="suggestions-container">
             @forelse ($suggestedProducts ?? [] as $suggested)
-                <div class="suggestion-item">
+                <a href="{{ route('product.detail', ['slug' => $suggested->slug]) }}" class="suggestion-item">
                     <img src="{{ asset($suggested->obrazok) }}" alt="{{ $suggested->nazov }}">
                     <h3>{{ $suggested->nazov }}</h3>
                     <p>{{ $suggested->popis }}</p>
                     <p class="price">{{ number_format($suggested->cena, 2) }}€</p>
-                </div>
+                </a>
             @empty
                 <p>Žiadne odporúčané produkty.</p>
             @endforelse
