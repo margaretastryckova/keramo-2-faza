@@ -18,6 +18,18 @@
                     </div>
                 </div>
             </div>
+            <div class="image-upload-group">
+                <label for="detail_obrazok">Detailná fotka produktu:</label>
+                <div class="image-upload-row">
+                    <div class="image-upload-box">
+                        <input type="file" id="detail" name="detail" accept="image/*">
+                        @if($product->detail)
+                            <p>Aktuálna detailná fotka: <a href="{{ asset($product->detail) }}" target="_blank">Zobraziť</a></p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
 
             <div class="form-fields">
                 <div class="form-group">

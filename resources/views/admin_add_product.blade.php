@@ -46,13 +46,28 @@
 
                 <div class="form-group">
                     <label for="farba">Farba:</label>
-                    <input type="text" id="farba" name="farba" value="{{ old('farba') }}" required>
+                    <select id="farba" name="farba" required>
+                        <option value="" disabled selected>Vyberte farbu</option>
+                        <option value="červená" {{ old('farba') == 'červená' ? 'selected' : '' }}>Červená</option>
+                        <option value="modrá" {{ old('farba') == 'modrá' ? 'selected' : '' }}>Modrá</option>
+                        <option value="hnedá" {{ old('farba') == 'hnedá' ? 'selected' : '' }}>Hnedá</option>
+                        <option value="zelená" {{ old('farba') == 'zelená' ? 'selected' : '' }}>Zelené</option>
+                        <option value="biela" {{ old('farba') == 'biela' ? 'selected' : '' }}>Biela</option>
+                        <option value="žltá" {{ old('farba') == 'žltá' ? 'selected' : '' }}>Žltá</option>
+                        <option value="ružová" {{ old('farba') == 'ružová' ? 'selected' : '' }}>Ružová</option>
+                    </select>
                 </div>
-
                 <div class="form-group">
                     <label for="rozmer">Rozmer:</label>
-                    <input type="text" id="rozmer" name="rozmer" value="{{ old('rozmer') }}" required>
+                    <select id="rozmer" name="rozmer" required>
+                        <option value="" disabled selected>Vyberte rozmer</option>
+                        <option value="malý" {{ old('rozmer') == 'malý' ? 'selected' : '' }}>Malý</option>
+                        <option value="stredný" {{ old('rozmer') == 'stredný' ? 'selected' : '' }}>Stredný</option>
+                        <option value="veľký" {{ old('rozmer') == 'veľký' ? 'selected' : '' }}>Veľký</option>
+
+                    </select>
                 </div>
+
 
                 <div class="form-group">
                     <label for="objem">Objem:</label>

@@ -127,4 +127,43 @@ class ProductController extends Controller
         // Ak nie je farba rozpoznaná, vráti pôvodnú farbu
         return $color;
     }
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        $request->validate([
+            'nazov' => 'required|string|max:255',
+            'kratky_popis' => 'required|string|max:255',
+            'cena' => 'required|numeric|min:0',
+            'farba' => 'required|string',
+            'rozmer' => 'required|string',
+            'objem' => 'nullable|string|max:100',
+            'kategoria' => 'required|string',
+            'obrazok' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'detail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $product->nazov = $request->nazov;
+        $product->popis = $request->kratky_popis;
+        $product->cena = $request->cena;
+        $product->farba = $request->farba;
+        $product->rozmer = $request->rozmer;
+        $product->objem = $request->objem;
+        $product->kategoria = $request->kategoria;
+
+        if ($request->hasFile('hlavna_fotka')) {
+            $hlavnaPath = $request->file('hlavna_fotka')->store('products', 'public');
+            $product->obrazok = 'storage/' . $hlavnaPath;
+        }
+
+        if ($request->hasFile('detail')) {
+            $detailPath = $request->file('detail')->store('products', 'public');
+            $product->detail = 'storage/' . $detailPath;
+        }
+
+        $product->save();
+
+        return redirect()->route('admin.dashboard')->with('success', 'Produkt bol úspešne aktualizovaný.');
+    }
+
 }
