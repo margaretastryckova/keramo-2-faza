@@ -4,37 +4,48 @@
 <div class="admin-product-container">
     <h2>Upraviť produkt</h2>
 
-    <form class="add-product-form" method="PUT" action="{{ route('admin.products.update', $product->id) }}" enctype="multipart/form-data">
+    <!-- @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif -->
+
+    <form class="add-product-form" method="POST" action="{{ route('admin.products.update', $product->id) }}" enctype="multipart/form-data">
         @csrf
-        @method('PUT') {{-- Alebo PUT ak nastavíš route s PUT --}}
-        
+        @method('PUT')
+
         <div class="add-product-layout">
             <div class="image-upload-group">
-                <label for="hlavna_fotka">Hlavná fotka produktu:</label>
+                <label for="hlavna_fotka_input">Hlavná fotka produktu:</label>
                 <div class="image-upload-box">
-                    <input type="file" id="hlavna_fotka" name="hlavna_fotka" accept="image/*">
                     @if($product->obrazok)
-                        <p>Aktuálna fotka:</p>
-                        <img src="{{ asset($product->obrazok) }}" alt="Hlavná fotka" style="max-width: 200px;">
+                        <p>Aktuálna hlavná fotka:</p>
+                        <img id="hlavna_fotka_preview" src="{{ asset($product->obrazok) }}" alt="Hlavná fotka" style="max-width: 260px;">
                     @endif
+                </div>
+                <div style="margin-top: 5px;">
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('hlavna_fotka_input').click(); document.getElementById('hlavna_fotka_preview')?.remove();">Upraviť</a>
+                    <input type="file" id="hlavna_fotka_input" name="hlavna_fotka" accept="image/*" style="display: none;">
                 </div>
             </div>
 
             <div class="image-upload-group">
-                <label for="dopl_fotky">Detailná fotka produktu:</label>
+                <label for="detail_fotka_input">Detailná fotka produktu:</label>
                 <div class="image-upload-box">
-                    <input type="file" id="dopl_fotky" name="dopl_fotky" accept="image/*">
                     @if($product->detail)
                         <p>Aktuálna detailná fotka:</p>
-                        <img src="{{ asset($product->detail) }}" alt="Detail fotka" style="max-width: 200px;">
+                        <img id="detail_fotka_preview" src="{{ asset($product->detail) }}" alt="Detail fotka" style="max-width: 260px;">
                     @endif
                 </div>
+                <div style="margin-top: 5px;">
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('detail_fotka_input').click(); document.getElementById('detail_fotka_preview')?.remove();">Upraviť</a>
+                    <input type="file" id="detail_fotka_input" name="dopl_fotka" accept="image/*" style="display: none;">
+                </div>
             </div>
-
-
-            <p>Cesta k hlavnej fotke: {{ $product->obrazok }}</p>
-            <p>Cesta k detailnej fotke: {{ $product->detail }}</p>
-
 
             <div class="form-fields">
                 <div class="form-group">
@@ -47,16 +58,11 @@
                     <input type="text" id="kratky_popis" name="kratky_popis" value="{{ old('kratky_popis', $product->popis) }}" required>
                 </div>
 
-                <!-- <div class="form-group">
-                    <label for="detailny_popis">Detailný popis:</label>
-                    <textarea id="detailny_popis" name="detailny_popis" rows="5">{{ old('detailny_popis', $product->detail) }}</textarea>
-                </div> -->
-
                 <div class="form-group">
                     <label for="farba">Farba:</label>
                     <select id="farba" name="farba" required>
                         <option value="">-- Vyberte farbu --</option>
-                        @foreach(['červená', 'biela', 'hnedá', 'modrá', 'zelená', 'žltá', 'ružová' ] as $farba)
+                        @foreach(['červená', 'biela', 'hnedá', 'modrá', 'zelená', 'žltá', 'ružová'] as $farba)
                             <option value="{{ $farba }}" {{ old('farba', $product->farba) == $farba ? 'selected' : '' }}>
                                 {{ ucfirst($farba) }}
                             </option>
@@ -105,3 +111,46 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    // Náhľad hlavnej fotky
+    document.getElementById('hlavna_fotka_input').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.createElement('img');
+                preview.src = e.target.result;
+                preview.style.maxWidth = '210px';
+                preview.classList.add('preview');
+                const container = document.querySelector('.image-upload-box');
+                const existingPreview = container.querySelector('img.preview');
+                if (existingPreview) existingPreview.remove();
+                container.appendChild(preview);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Náhľad detailnej fotky
+    document.getElementById('detail_fotka_input').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.createElement('img');
+                preview.src = e.target.result;
+                preview.style.maxWidth = '210px';
+                preview.style.marginTop = '10px';
+                preview.classList.add('preview');
+                const container = document.querySelector('.image-upload-box:nth-of-type(2)');
+                const existingPreview = container.querySelector('img.preview');
+                if (existingPreview) existingPreview.remove();
+                container.appendChild(preview);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+@endpush

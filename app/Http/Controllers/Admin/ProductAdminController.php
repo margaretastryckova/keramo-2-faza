@@ -32,7 +32,7 @@ class ProductAdminController extends Controller
             'cena' => 'required|numeric',
             'kategoria' => 'required|string',
             'hlavna_fotka' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'dopl_fotky.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'dopl_fotka' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'objem' => 'nullable|string|max:255',
             'rozmer' => 'nullable|string|max:255',
             'farba' => 'nullable|string|max:255',
@@ -46,8 +46,8 @@ class ProductAdminController extends Controller
         // Uloženie doplnkových fotiek
         $detailFotkaPath = null;
         $doplFotkyPaths = [];
-        if ($request->hasFile('dopl_fotky')) {
-            foreach ($request->file('dopl_fotky') as $fotka) {
+        if ($request->hasFile('dopl_fotka')) {
+            foreach ($request->file('dopl_fotka') as $fotka) {
                 if ($fotka) {
                     $nazov = uniqid() . '_' . $fotka->getClientOriginalName();
                     $path = Storage::putFileAs('public/pohare', $fotka, $nazov);
@@ -96,13 +96,17 @@ class ProductAdminController extends Controller
 
 
     public function edit($id)
-{
+    {
     $product = Product::findOrFail($id);
     return view('admin_edit_product', compact('product'));
-}
+    }
 
     public function update(Request $request, $id)
     {
+        // if ($request->hasFile('dopl_fotka')) {
+        //     dd($request->file('dopl_fotka')); // Skontroluj, či sa súbor správne posiela
+        // }
+
         $validated = $request->validate([
             'nazov' => 'required|string|max:255',
             'kratky_popis' => 'required|string|max:500',
@@ -110,7 +114,7 @@ class ProductAdminController extends Controller
             'cena' => 'required|numeric',
             'kategoria' => 'required|string',
             'hlavna_fotka' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'dopl_fotky.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'dopl_fotka' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'objem' => 'nullable|string|max:255',
             'rozmer' => 'nullable|string|max:255',
             'farba' => 'nullable|string|max:255',
@@ -122,7 +126,7 @@ class ProductAdminController extends Controller
         $product->update([
             'nazov' => $validated['nazov'],
             'popis' => $validated['kratky_popis'],
-            'detail' => $validated['detailny_popis'] ?? null,
+            'detailny_popis' => $validated['detailny_popis'] ?? null,
             'cena' => $validated['cena'],
             'kategoria' => $validated['kategoria'],
             'objem' => $validated['objem'],
@@ -131,40 +135,33 @@ class ProductAdminController extends Controller
             'slug' => Str::slug($validated['nazov'] . '-' . Str::random(5)),
         ]);
 
-        // Spracovanie hlavnej fotky
+        // Uloženie novej hlavnej fotky (ak je nahratá)
         if ($request->hasFile('hlavna_fotka')) {
-            // Odstráň starú hlavnú fotku, ak existuje
+            // Zmaž starý súbor, ak existuje
             if ($product->obrazok) {
                 Storage::delete(str_replace('storage/', 'public/', $product->obrazok));
             }
-
             $hlavnaFotka = $request->file('hlavna_fotka');
             $hlavnaNazov = uniqid() . '_' . $hlavnaFotka->getClientOriginalName();
-            $hlavnaFotkaPath = Storage::putFileAs('public/pohare', $hlavnaFotka, $hlavnaNazov);
-            $product->obrazok = 'storage/' . $hlavnaFotkaPath;
+            $hlavnaPath = Storage::putFileAs('public/pohare', $hlavnaFotka, $hlavnaNazov);
+            $product->obrazok = 'storage/' . $hlavnaPath;
         }
 
-        // Spracovanie doplnkových fotiek
-        if ($request->hasFile('dopl_fotky')) {
-            // Odstráň starú detailnú fotku, ak existuje
+        // Uloženie novej detailnej fotky (ak je nahratá)
+        if ($request->hasFile('dopl_fotka')) {
+            // Zmaž starý súbor, ak existuje
             if ($product->detail) {
-                Storage::delete(str_replace('storage/', 'public/', $product->doln_fotka));
+                Storage::delete(str_replace('storage/', 'public/', $product->detail));
             }
-
-            $doplFotkyPaths = [];
-            foreach ($request->file('dopl_fotky') as $fotka) {
-                $nazov = uniqid() . '_' . $fotka->getClientOriginalName();
-                $path = Storage::putFileAs('public/pohare', $fotka, $nazov);
-                $doplFotkyPaths[] = 'storage/' . $path;
-            }
-
-            // Nastav prvú doplnkovú fotku ako detailnú
-            $product->detail ='storage/' .  $doplFotkyPaths;
+            $detailFotka = $request->file('dopl_fotka');
+            $detailNazov = uniqid() . '_' . $detailFotka->getClientOriginalName();
+            $detailPath = Storage::putFileAs('public/pohare', $detailFotka, $detailNazov);
+            $product->detail = 'storage/' . $detailPath;
         }
 
         $product->save();
 
-        return redirect()->route('admin.menu')->with('success', 'Produkt bol úspešne upravený.');
+        return redirect()->route('admin.menu')->with('success', 'Produkt bol upravený.');
     }
 
 }
