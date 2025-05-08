@@ -101,3 +101,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 });
 
 
+use App\Http\Controllers\Auth\ProfileController;
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password');
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password.store');
+    Route::get('/profile/change-email', [ProfileController::class, 'showChangeEmailForm'])->name('profile.change-email');
+    Route::post('/profile/change-email', [ProfileController::class, 'changeEmail'])->name('profile.change-email.store');
+});

@@ -12,11 +12,9 @@
                 </label>
                 <input type="checkbox" id="profile-toggle" class="toggle-input">
                 <div class="dropdown-content">
-                    <a href="#">Zmeniť heslo</a>
-                    <a href="#">Vybrať jazyk</a>
-                    <a href="#">Vybrať krajinu</a>
-                    <a href="#">Zmeniť emailovú adresu</a>
-                </div>
+                <a href="{{ route('profile.change-password') }}">Zmeniť heslo</a>                    
+
+                <a href="{{ route('profile.change-email') }}">Zmeniť emailovú adresu</a>                </div>
             </li>
 
             <li>
@@ -25,8 +23,8 @@
                 </label>
                 <input type="checkbox" id="settings-toggle" class="toggle-input">
                 <div class="dropdown-content">
-                    <a href="#">Zmeniť profilové údaje</a>
-                    <a href="#">Zmeniť preferencie</a>
+                    <a href="#">Vybrať jazyk</a>
+                    <a href="#">Vybrať krajinu</a>
                 </div>
             </li>
 

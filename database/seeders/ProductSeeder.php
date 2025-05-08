@@ -168,8 +168,7 @@ class ProductSeeder extends Seeder
                 'slug' => 'heart-pohar',
                 'kategoria' => 'poháre',
                 'farba' => 'červená',
-            ],
-
+            ]
             
         ];
 
