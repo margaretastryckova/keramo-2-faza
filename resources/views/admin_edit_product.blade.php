@@ -4,31 +4,36 @@
 <div class="admin-product-container">
     <h2>Upraviť produkt</h2>
 
-    <form class="add-product-form" method="POST" action="{{ route('admin.products.update', $product->id) }}" enctype="multipart/form-data">
+    <form class="add-product-form" method="PUT" action="{{ route('admin.products.update', $product->id) }}" enctype="multipart/form-data">
         @csrf
-        @method('POST') {{-- Alebo PUT ak nastavíš route s PUT --}}
+        @method('PUT') {{-- Alebo PUT ak nastavíš route s PUT --}}
         
         <div class="add-product-layout">
             <div class="image-upload-group">
                 <label for="hlavna_fotka">Hlavná fotka produktu:</label>
-                <div class="image-upload-row">
-                    <div class="image-upload-box">
-                        <input type="file" id="hlavna_fotka" name="hlavna_fotka" accept="image/*">
-                        <p>Aktuálna fotka: <a href="{{ asset($product->obrazok) }}" target="_blank">Zobraziť</a></p>
-                    </div>
+                <div class="image-upload-box">
+                    <input type="file" id="hlavna_fotka" name="hlavna_fotka" accept="image/*">
+                    @if($product->obrazok)
+                        <p>Aktuálna fotka:</p>
+                        <img src="{{ asset($product->obrazok) }}" alt="Hlavná fotka" style="max-width: 200px;">
+                    @endif
                 </div>
             </div>
+
             <div class="image-upload-group">
-                <label for="detail_obrazok">Detailná fotka produktu:</label>
-                <div class="image-upload-row">
-                    <div class="image-upload-box">
-                        <input type="file" id="detail" name="detail" accept="image/*">
-                        @if($product->detail)
-                            <p>Aktuálna detailná fotka: <a href="{{ asset($product->detail) }}" target="_blank">Zobraziť</a></p>
-                        @endif
-                    </div>
+                <label for="dopl_fotky">Detailná fotka produktu:</label>
+                <div class="image-upload-box">
+                    <input type="file" id="dopl_fotky" name="dopl_fotky" accept="image/*">
+                    @if($product->detail)
+                        <p>Aktuálna detailná fotka:</p>
+                        <img src="{{ asset($product->detail) }}" alt="Detail fotka" style="max-width: 200px;">
+                    @endif
                 </div>
             </div>
+
+
+            <p>Cesta k hlavnej fotke: {{ $product->obrazok }}</p>
+            <p>Cesta k detailnej fotke: {{ $product->detail }}</p>
 
 
             <div class="form-fields">

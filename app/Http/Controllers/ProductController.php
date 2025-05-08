@@ -156,8 +156,8 @@ class ProductController extends Controller
             $product->obrazok = 'storage/' . $hlavnaPath;
         }
 
-        if ($request->hasFile('detail')) {
-            $detailPath = $request->file('detail')->store('products', 'public');
+        if ($request->hasFile('dopl_fotky')) {
+            $detailPath = $request->file('dopl_fotky')->store('products', 'public');
             $product->detail = 'storage/' . $detailPath;
         }
 

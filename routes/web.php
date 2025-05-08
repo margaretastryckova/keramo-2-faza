@@ -97,8 +97,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('/products/store', [ProductAdminController::class, 'store'])->name('products.store');
     Route::delete('/products/delete/{id}', [ProductAdminController::class, 'destroy'])->name('products.destroy');
     Route::get('/products/edit/{id}', [ProductAdminController::class, 'edit'])->name('products.edit');
-    Route::post('/products/update/{id}', [ProductAdminController::class, 'update'])->name('products.update');
-
+    Route::put('/products/update/{id}', [ProductAdminController::class, 'update'])->name('products.update');
 });
 
 
