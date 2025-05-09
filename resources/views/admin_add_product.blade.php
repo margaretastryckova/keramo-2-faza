@@ -4,97 +4,74 @@
 <div class="admin-product-container">
     <h2>Pridať nový produkt</h2>
 
-    <form class="add-product-form" action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data" class="add-product-form">
         @csrf
-
         <div class="add-product-layout">
             <div class="image-upload-group">
-                <label for="hlavna-fotka">Hlavná fotka produktu:</label>
-                <div class="image-upload-row">
-                    <div class="image-upload-box">
-                        <label for="hlavna-fotka" class="upload-placeholder">+</label>
-                        <input type="file" id="hlavna-fotka" name="hlavna_fotka" accept="image/*" required>
-                        <img id="hlavnyNahlad" style="margin-top:10px; max-height:200px;" />
-                    </div>
+
+                <label for="obrazok">Hlavná fotka produktu:</label>
+                <div class="image-upload-box">
+                    <label for="obrazok" class="upload-placeholder">+</label>
+                    <input type="file" id="obrazok" name="obrazok" accept="image/*" required>
+                    <img id="hlavnyNahlad" style="margin-top:10px; max-height:200px;" />
                 </div>
 
-                <label for="dopl-fotka">Doplnková fotka produktu:</label>
-                <div class="image-upload-row">
-                    <div class="image-upload-box">
-                        <label for="dopl-fotka" class="upload-placeholder">+</label>
-                        <input type="file" id="dopl-fotka" name="dopl_fotky[]" accept="image/*" required>
-                        <img id="doplnkovyNahlad" style="margin-top:10px; max-height:200px;" />
-                    </div>
+                <label for="detail">Detailná fotka produktu:</label>
+                <div class="image-upload-box">
+                    <label for="detail" class="upload-placeholder">+</label>
+                    <input type="file" id="detail" name="detail" accept="image/*" required>
+                    <img id="detailNahlad" style="margin-top:10px; max-height:200px;" />
                 </div>
             </div>
 
             <div class="form-fields">
-                <div class="form-group">
-                    <label for="nazov">Názov produktu:</label>
-                    <input type="text" id="nazov" name="nazov" value="{{ old('nazov') }}" required>
-                </div>
+                <label for="nazov">Názov produktu:</label>
+                <input type="text" name="nazov" required>
 
-                <div class="form-group">
-                    <label for="kratky-popis">Krátky popis:</label>
-                    <input type="text" id="kratky-popis" name="kratky_popis" value="{{ old('kratky_popis') }}" required>
-                </div>
+                <label for="popis">Popis:</label>
+                <textarea name="popis" rows="4" required></textarea>
 
-                <!-- <div class="form-group">
-                    <label for="detailny-popis">Detailný popis:</label>
-                    <textarea id="detailny-popis" name="detailny_popis" rows="5" required>{{ old('detailny_popis') }}</textarea>
-                </div> -->
+                <label for="cena">Cena (€):</label>
+                <input type="number" name="cena" step="0.01" required>
 
-                <div class="form-group">
-                    <label for="farba">Farba:</label>
-                    <select id="farba" name="farba" required>
-                        <option value="" disabled selected>Vyberte farbu</option>
-                        <option value="červená" {{ old('farba') == 'červená' ? 'selected' : '' }}>Červená</option>
-                        <option value="modrá" {{ old('farba') == 'modrá' ? 'selected' : '' }}>Modrá</option>
-                        <option value="hnedá" {{ old('farba') == 'hnedá' ? 'selected' : '' }}>Hnedá</option>
-                        <option value="zelená" {{ old('farba') == 'zelená' ? 'selected' : '' }}>Zelené</option>
-                        <option value="biela" {{ old('farba') == 'biela' ? 'selected' : '' }}>Biela</option>
-                        <option value="žltá" {{ old('farba') == 'žltá' ? 'selected' : '' }}>Žltá</option>
-                        <option value="ružová" {{ old('farba') == 'ružová' ? 'selected' : '' }}>Ružová</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="rozmer">Rozmer:</label>
-                    <select id="rozmer" name="rozmer" required>
-                        <option value="" disabled selected>Vyberte rozmer</option>
-                        <option value="malý" {{ old('rozmer') == 'malý' ? 'selected' : '' }}>Malý</option>
-                        <option value="stredný" {{ old('rozmer') == 'stredný' ? 'selected' : '' }}>Stredný</option>
-                        <option value="veľký" {{ old('rozmer') == 'veľký' ? 'selected' : '' }}>Veľký</option>
+                <label for="objem">Objem:</label>
+                <input type="text" name="objem">
 
-                    </select>
-                </div>
+                <label for="rozmer">Rozmer:</label>
+                <select id="rozmer" name="rozmer" required>
+                    <option value="" disabled selected>Vyberte rozmer</option>
+                    <option value="malý" {{ old('rozmer') == 'malý' ? 'selected' : '' }}>Malý</option>
+                    <option value="stredný" {{ old('rozmer') == 'stredný' ? 'selected' : '' }}>Stredný</option>
+                    <option value="veľký" {{ old('rozmer') == 'veľký' ? 'selected' : '' }}>Veľký</option>
 
+                </select>
 
-                <div class="form-group">
-                    <label for="objem">Objem:</label>
-                    <input type="text" id="objem" name="objem" value="{{ old('objem') }}" required>
-                </div>
+                <label for="farba">Farba:</label>
+                <select id="farba" name="farba" required>
+                    <option value="" disabled selected>Vyberte farbu</option>
+                    <option value="červená" {{ old('farba') == 'červená' ? 'selected' : '' }}>Červená</option>
+                    <option value="modrá" {{ old('farba') == 'modrá' ? 'selected' : '' }}>Modrá</option>
+                    <option value="hnedá" {{ old('farba') == 'hnedá' ? 'selected' : '' }}>Hnedá</option>
+                    <option value="zelená" {{ old('farba') == 'zelená' ? 'selected' : '' }}>Zelené</option>
+                    <option value="biela" {{ old('farba') == 'biela' ? 'selected' : '' }}>Biela</option>
+                    <option value="žltá" {{ old('farba') == 'žltá' ? 'selected' : '' }}>Žltá</option>
+                    <option value="ružová" {{ old('farba') == 'ružová' ? 'selected' : '' }}>Ružová</option>
+                </select>
 
-                <div class="form-group">
-                    <label for="cena">Cena (€):</label>
-                    <input type="number" id="cena" name="cena" value="{{ old('cena') }}" step="0.01" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="kategoria">Kategória:</label>
-                    <select id="kategoria" name="kategoria" required>
-                        <option value="" disabled selected>Vyberte kategóriu</option>
-                        <option value="pohare" {{ old('kategoria') == 'pohare' ? 'selected' : '' }}>Poháre</option>
-                        <option value="taniere" {{ old('kategoria') == 'taniere' ? 'selected' : '' }}>Taniere</option>
-                        <option value="misky" {{ old('kategoria') == 'misky' ? 'selected' : '' }}>Misky</option>
-                        <option value="sety" {{ old('kategoria') == 'sety' ? 'selected' : '' }}>Sety</option>
-                        <option value="ine" {{ old('kategoria') == 'ine' ? 'selected' : '' }}>Iné</option>
-                    </select>
-                </div>
+                <label for="kategoria">Kategória:</label>
+                <select name="kategoria" required>
+                    <option value="" disabled selected>Vyber kategóriu</option>
+                    <option value="pohare">Poháre</option>
+                    <option value="taniere">Taniere</option>
+                    <option value="misky">Misky</option>
+                    <option value="sety">Sety</option>
+                    <option value="ine">Iné</option>
+                </select>
             </div>
         </div>
 
         <div class="form-buttons">
-            <a href="{{ route('admin.dashboard') }}" class="btn-admin">Zrušiť</a>
+            <a href="{{ route('admin.index') }}" class="btn-admin">Zrušiť</a>
             <button type="submit" class="btn-admin">Pridať produkt</button>
         </div>
     </form>
@@ -103,28 +80,18 @@
 
 @push('scripts')
 <script>
-    // Náhľad hlavnej fotky
-    document.getElementById('hlavna-fotka').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('hlavnyNahlad').src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+document.getElementById('obrazok').addEventListener('change', function(e) {
+    const [file] = e.target.files;
+    if (file) {
+        document.getElementById('hlavnyNahlad').src = URL.createObjectURL(file);
+    }
+});
 
-    // Náhľad doplnkovej fotky
-    document.getElementById('dopl-fotka').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('doplnkovyNahlad').src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+document.getElementById('detail').addEventListener('change', function(e) {
+    const [file] = e.target.files;
+    if (file) {
+        document.getElementById('detailNahlad').src = URL.createObjectURL(file);
+    }
+});
 </script>
 @endpush

@@ -66,7 +66,7 @@ class LoginController extends Controller
 
         //  Presmerovanie podľa typu používateľa
         if ($user->is_admin) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.index');
         }
 
         return redirect()->route('profile');

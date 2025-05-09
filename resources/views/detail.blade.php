@@ -32,8 +32,17 @@
     <!-- Detail produktu -->
     <section class="container">
         <div class="image-container">
-            <img src="{{ asset($product->obrazok) }}" alt="{{ $product->nazov }}">
-        </div>
+            @php
+                $imagePath = strpos($product->obrazok, 'products/') === 0
+                    ? asset('storage/' . $product->obrazok)
+                    : asset($product->obrazok);
+                $detailPath = strpos($product->detail, 'products/') === 0
+                    ? asset('storage/' . $product->detail)
+                    : asset($product->detail);
+            @endphp
+
+            <img src="{{ $imagePath }}" alt="{{ $product->nazov }}" class="product-image">   
+        </div>     
         <div class="info-container">
             <h2>{{ $product->nazov }}</h2>
             <p class="description">{{ $product->popis }}</p>
@@ -60,9 +69,10 @@
                         {{ $isFavorited ? 'Odstrániť z obľúbených' : 'Pridať medzi obľúbené' }}
                     </button>
                 </form>
-
+                <a href="{{ route('cups') }}" class="back-btn">← Späť na poháre.</a>
 
             </div>
+        
 
 
             <!-- Popup for cart confirmation -->
@@ -72,8 +82,7 @@
                         <a href="{{ route('cups') }}" class="close-btn">×</a>
                         <h2>Produkt bol pridaný do košíka</h2>
                         <div class="cart-item-summary">
-                            <img src="{{ asset($product->obrazok) }}" alt="{{ $product->nazov }}" class="cart-item-image">
-                            <div class="cart-item-info">
+                            <img src="{{ asset('storage/' . $product->obrazok) }}" alt="Hlavný obrázok" style="max-height: 200px;">                            <div class="cart-item-info">
                                 <p class="cart-item-name">{{ $product->nazov }}</p>
                                 <p class="cart-item-price">Cena: {{ number_format($product->cena, 2) }}€</p>
                                 <p class="cart-item-quantity">Množstvo: {{ session('quantity', 1) }}</p>
@@ -87,14 +96,13 @@
                 </div>
             @endif
 
-            <a href="{{ route('cups') }}" class="back-btn">← Späť na poháre.</a>
         </div>
     </section>
 
     <!-- Detaily produktu -->
     <section class="product-details">
         <div class="detail-image">
-            <img src="{{ asset($product->detail_obrazok ?? $product->obrazok) }}" alt="Detail {{ $product->nazov }}">
+            <img src="{{ $detailPath }}" alt="{{ $product->nazov }}" class="product-image">        
         </div>
         <div class="detail-info">
             <h3>Detaily produktu</h3>
@@ -130,8 +138,14 @@
         <h2 class="suggestions-heading">Mohlo by sa vám páčiť</h2>
         <div class="suggestions-container">
             @forelse ($suggestedProducts ?? [] as $suggested)
+                @php
+                    $imagePath = strpos($suggested->obrazok, 'products/') === 0
+                        ? asset('storage/' . $suggested->obrazok)
+                        : asset($suggested->obrazok);
+                @endphp
+
                 <a href="{{ route('product.detail', ['slug' => $suggested->slug]) }}" class="suggestion-item">
-                    <img src="{{ asset($suggested->obrazok) }}" alt="{{ $suggested->nazov }}">
+                    <img src="{{ $imagePath }}" alt="{{ $suggested->nazov }}">
                     <h3>{{ $suggested->nazov }}</h3>
                     <p>{{ $suggested->popis }}</p>
                     <p class="price">{{ number_format($suggested->cena, 2) }}€</p>
@@ -141,6 +155,7 @@
             @endforelse
         </div>
     </section>
+
 @endsection
 
 @push('scripts')

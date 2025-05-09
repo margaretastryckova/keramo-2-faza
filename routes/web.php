@@ -83,21 +83,20 @@ Route::get('/moje-objednavky', [App\Http\Controllers\OrderController::class, 'in
     ->name('orders.index');
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
-});
+
 
 Route::get('/admin/menu', function () {
     return view('admin_menu');
 })->name('admin.menu');
 
 
+// Admin Routes
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('index');
     Route::get('/products/create', [ProductAdminController::class, 'create'])->name('products.create');
-    Route::post('/products/store', [ProductAdminController::class, 'store'])->name('products.store');
-    Route::delete('/products/delete/{id}', [ProductAdminController::class, 'destroy'])->name('products.destroy');
+    Route::post('/products', [ProductAdminController::class, 'store'])->name('products.store');
     Route::get('/products/edit/{id}', [ProductAdminController::class, 'edit'])->name('products.edit');
-    Route::put('/products/update/{id}', [ProductAdminController::class, 'update'])->name('products.update');
+    Route::delete('/products/delete/{id}', [ProductAdminController::class, 'destroy'])->name('products.delete');
 });
 
 
