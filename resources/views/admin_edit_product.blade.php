@@ -4,7 +4,7 @@
 <div class="admin-product-container">
     <h2>Upraviť produkt</h2>
 
-    <!-- @if ($errors->any())
+    @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -12,7 +12,7 @@
                 @endforeach
             </ul>
         </div>
-    @endif -->
+    @endif
 
     <form class="add-product-form" method="POST" action="{{ route('admin.products.update', $product->id) }}" enctype="multipart/form-data">
         @csrf
@@ -22,9 +22,18 @@
             <div class="image-upload-group">
                 <label for="hlavna_fotka_input">Hlavná fotka produktu:</label>
                 <div class="image-upload-box">
+                    @php
+                        $hlavnaFotkaPath = strpos($product->obrazok, 'products/') === 0
+                            ? asset('storage/' . $product->obrazok)
+                            : asset($product->obrazok);
+
+                        $detailFotkaPath = $product->detail
+                            ? (strpos($product->detail, 'products/') === 0 ? asset('storage/' . $product->detail) : asset($product->detail))
+                            : null;
+                    @endphp
                     @if($product->obrazok)
                         <p>Aktuálna hlavná fotka:</p>
-                        <img id="hlavna_fotka_preview" src="{{ asset($product->obrazok) }}" alt="Hlavná fotka" style="max-width: 260px;">
+                        <img id="hlavna_fotka_preview" src="{{ $hlavnaFotkaPath }}" alt="Hlavná fotka" style="max-width: 260px;">
                     @endif
                 </div>
                 <div style="margin-top: 5px;">
@@ -38,7 +47,7 @@
                 <div class="image-upload-box">
                     @if($product->detail)
                         <p>Aktuálna detailná fotka:</p>
-                        <img id="detail_fotka_preview" src="{{ asset($product->detail) }}" alt="Detail fotka" style="max-width: 260px;">
+                        <img id="detail_fotka_preview" src="{{ $detailFotkaPath }}" alt="Detail fotka" style="max-width: 260px;">
                     @endif
                 </div>
                 <div style="margin-top: 5px;">
@@ -91,13 +100,14 @@
                     <label for="cena">Cena (€):</label>
                     <input type="number" id="cena" name="cena" value="{{ old('cena', $product->cena) }}" step="0.01" required>
                 </div>
-
                 <div class="form-group">
-                    <label for="kategoria">Kategória:</label>
-                    <select id="kategoria" name="kategoria" required>
-                        <option value="">-- Vyberte kategóriu --</option>
-                        @foreach(['pohare', 'taniere', 'misky', 'sety', 'ine'] as $kat)
-                            <option value="{{ $kat }}" {{ old('kategoria', $product->kategoria) == $kat ? 'selected' : '' }}>{{ ucfirst($kat) }}</option>
+                    <label for="rozmer">Rozmer:</label>
+                    <select id="rozmer" name="rozmer" required>
+                        <option value="">-- Vyberte rozmer --</option>
+                        @foreach(['malý', 'stredný', 'veľký'] as $rozmer)
+                            <option value="{{ $rozmer }}" {{ old('rozmer', $product->rozmer) == $rozmer ? 'selected' : '' }}>
+                                {{ ucfirst($rozmer) }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -105,7 +115,7 @@
         </div>
 
         <div class="form-buttons">
-            <a href="{{ route('admin.dashboard') }}" class="btn-admin">Zrušiť</a>
+            <a href="{{ route('admin.index') }}" class="btn-admin">Zrušiť</a>
             <button type="submit" class="btn-admin">Uložiť zmeny</button>
         </div>
     </form>

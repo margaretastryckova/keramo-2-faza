@@ -34,7 +34,7 @@
         </a>
         </div>
         <div class="kategoria">
-            <<a href="{{ route('sets') }}">
+            <a href="{{ route('sets') }}">
                 <img src="setiky/sety.jpg" alt="Sety">
                 <span class="text">Sety</span>
             </a>

@@ -9,13 +9,13 @@ class ProductAdminController extends Controller
 {
     public function create()
     {
-        return view('admin_menu');
+        return view('admin_add_product');
     }
 
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('admin.products.edit', compact('product'));
+        return view('admin_edit_product', compact('product'));
     }
 
     public function destroy($id)
@@ -56,6 +56,44 @@ class ProductAdminController extends Controller
             'farba' => $request->farba,
         ]);
 
-        return redirect()->route('admin.products.create')->with('success', 'Produkt bol úspešne pridaný.');
+        return redirect()->route('admin.index')->with('success', 'Produkt bol úspešne pridaný.');
     }
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+    
+        $request->validate([
+            'nazov' => 'required|string|max:255',
+            'kratky_popis' => 'required|string',
+            'cena' => 'required|numeric',
+            'hlavna_fotka' => 'nullable|image',
+            'dopl_fotka' => 'nullable|image',
+            'objem' => 'nullable|string',
+            'rozmer' => 'nullable|string',
+            'kategoria' => 'nullable|string',
+            'farba' => 'nullable|string',
+
+        ]);
+    
+        if ($request->hasFile('hlavna_fotka')) {
+            $product->obrazok = $request->file('hlavna_fotka')->store('products', 'public');
+        }
+    
+        if ($request->hasFile('dopl_fotka')) {
+            $product->detail = $request->file('dopl_fotka')->store('products', 'public');
+        }
+    
+        $product->nazov = $request->nazov;
+        $product->popis = $request->kratky_popis;
+        $product->cena = $request->cena;
+        $product->objem = $request->objem;
+        $product->rozmer = $request->rozmer;
+        $product->kategoria = $request->kategoria;
+        $product->farba = $request->farba;
+    
+        $product->save();
+    
+        return redirect()->route('admin.index')->with('success', 'Produkt bol úspešne upravený.');
+    }
+    
 }
