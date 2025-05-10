@@ -21,8 +21,7 @@
         <div class="add-product-layout">
             <div class="image-upload-group">
                 <label for="hlavna_fotka_input">Hlavná fotka produktu:</label>
-                <div class="image-upload-box">
-                    @php
+                <div class="image-upload-box" id="hlavna_fotka_box">                    @php
                         $hlavnaFotkaPath = strpos($product->obrazok, 'products/') === 0
                             ? asset('storage/' . $product->obrazok)
                             : asset($product->obrazok);
@@ -44,8 +43,7 @@
 
             <div class="image-upload-group">
                 <label for="detail_fotka_input">Detailná fotka produktu:</label>
-                <div class="image-upload-box">
-                    @if($product->detail)
+                <div class="image-upload-box" id="detail_fotka_box">                    @if($product->detail)
                         <p>Aktuálna detailná fotka:</p>
                         <img id="detail_fotka_preview" src="{{ $detailFotkaPath }}" alt="Detail fotka" style="max-width: 260px;">
                     @endif
@@ -134,7 +132,7 @@
                 preview.src = e.target.result;
                 preview.style.maxWidth = '210px';
                 preview.classList.add('preview');
-                const container = document.querySelector('.image-upload-box');
+                const container = document.getElementById('hlavna_fotka_box');
                 const existingPreview = container.querySelector('img.preview');
                 if (existingPreview) existingPreview.remove();
                 container.appendChild(preview);
@@ -154,7 +152,7 @@
                 preview.style.maxWidth = '210px';
                 preview.style.marginTop = '10px';
                 preview.classList.add('preview');
-                const container = document.querySelector('.image-upload-box:nth-of-type(2)');
+                const container = document.getElementById('detail_fotka_box');
                 const existingPreview = container.querySelector('img.preview');
                 if (existingPreview) existingPreview.remove();
                 container.appendChild(preview);

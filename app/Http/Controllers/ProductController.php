@@ -47,10 +47,10 @@ class ProductController extends Controller
                 case 'najnovsie':
                     $query->orderBy('created_at', 'desc');
                     break;
-                case 'najoblubenejsie':
-                    // Predpokladáme, že máš pole pre obľúbenosť alebo hodnotenie
-                    $query->orderBy('created_at', 'desc'); // Príklad, uprav podľa potreby
-                    break;
+                // case 'najoblubenejsie':
+                //     // Predpokladáme, že máš pole pre obľúbenosť alebo hodnotenie
+                //     $query->orderBy('created_at', 'desc'); // Príklad, uprav podľa potreby
+                //     break;
             }
         }
 

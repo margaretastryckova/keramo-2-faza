@@ -77,7 +77,6 @@
                 <label><input type="radio" name="sort" value="najlacnejsie" {{ request('sort') == 'najlacnejsie' ? 'checked' : '' }}> Najlacnejšie</label>
                 <label><input type="radio" name="sort" value="najdrahsie" {{ request('sort') == 'najdrahsie' ? 'checked' : '' }}> Najdrahšie</label>
                 <label><input type="radio" name="sort" value="najnovsie" {{ request('sort') == 'najnovsie' ? 'checked' : '' }}> Najnovšie</label>
-                <label><input type="radio" name="sort" value="najoblubenejsie" {{ request('sort') == 'najoblubenejsie' ? 'checked' : '' }}> Najobľúbenejšie</label>
                 <button type="submit">Zoradiť</button>
             </form>
         </div>
