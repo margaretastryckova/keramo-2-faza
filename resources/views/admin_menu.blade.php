@@ -5,7 +5,7 @@
 @if(session('success'))
     <div id="popup-success" class="popup-success-wrapper">
         <div class="popup-success-content">
-            <p>{{ session('success') }}</p>
+            <p>Akcia prebehla úspešne</p>
             <button onclick="closeSuccessPopup()">OK</button>
         </div>
     </div>
