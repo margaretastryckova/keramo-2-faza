@@ -17,9 +17,9 @@ class CheckoutController extends Controller
             'priezvisko' => 'required|string|max:255',
             'ulica' => 'required|string|max:255',
             'mesto' => 'required|string|max:255',
-            'psc' => 'required|string|max:10',
+            'psc' => ['required', 'regex:/^\d{5}$/'], // Slovenské PSČ – presne 5 číslic
             'krajina' => 'required|string|in:Slovensko,Česko',
-            'telefon' => 'required|string|max:20',
+            'telefon' => ['required', 'regex:/^\+?[0-9\s]{7,15}$/'],
             'delivery' => 'required|in:kurier,odberne,osobny',
             'payment' => 'required|in:card,dobierka,paypal',
             'firma' => 'nullable|string|max:255',
@@ -52,7 +52,7 @@ class CheckoutController extends Controller
             ...$validated,
             'predvolba' => $request->predvolba,
             'firma' => $request->firma,
-            'items' => $cart, // Toto bude pole, nie string
+            'items' => $cart, 
             'total' => $total,
         ]);
 
