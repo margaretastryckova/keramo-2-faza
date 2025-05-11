@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Spustí sa pri načítaní stránky (napr. ak máš predvolenú hodnotu)
+    // Spustí sa pri načítaní stránky 
     updatePrefix();
 
     // Spustí sa vždy, keď sa zmení krajina

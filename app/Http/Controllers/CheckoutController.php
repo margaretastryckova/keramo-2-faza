@@ -1,5 +1,7 @@
 <?php 
 
+//spracovanie a ulozenie objednavky na zaklade udajov z kosika a formulara
+
 namespace App\Http\Controllers;
 
 use App\Models\Order;

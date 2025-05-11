@@ -119,7 +119,7 @@ class ProductController extends Controller
         foreach ($colorVariations as $key => $variations) {
             foreach ($variations as $variation) {
                 if (strpos(strtolower($color), strtolower($variation)) !== false) {
-                    return $key; // Vráti základnú farbu (napr. 'červený', 'modrý' atď.)
+                    return $key; 
                 }
             }
         }

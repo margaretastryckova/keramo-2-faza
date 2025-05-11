@@ -1,5 +1,7 @@
 <?php
 
+// ProductSeeder - naplna databazu ukazkovymi produktmi pre eshop (pohare).
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;

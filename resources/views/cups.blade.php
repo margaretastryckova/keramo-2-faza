@@ -193,7 +193,6 @@ document.addEventListener('DOMContentLoaded', function () {
         let minval = parseInt(minInput.value);
         let maxval = parseInt(maxInput.value);
 
-        // Fix na prekríženie
         if (minval > maxval) {
             [minval, maxval] = [maxval, minval];
         }

@@ -75,7 +75,7 @@
         
 
 
-            <!-- Popup for cart confirmation -->
+            <!-- Popup na kosik -->
             @if (session('success'))
                 <div class="cart-popup">
                     <div class="cart-popup-content">
@@ -161,7 +161,7 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Skript na prepočet ceny podľa množstva
+        // prepocet ceny podla mnozstva 
         const quantityInput = document.getElementById('quantity1');
         const priceDisplay = document.getElementById('price-display');
         const unitPrice = {{ $product->cena }};
@@ -174,19 +174,17 @@
             });
         }
 
-        // Skript na obľúbené tlačidlo na detaile
+        // obľúbené tlačidlo na detaile
         const detailButton = document.querySelector('.favorite-button-detail');
         if (detailButton) {
             const isInitiallyFavorited = detailButton.getAttribute('data-initial-favorited') === 'true';
 
-            // Zobraz správny text hneď po načítaní
             if (isInitiallyFavorited) {
                 detailButton.innerHTML = '<i class="fas fa-heart"></i> Odstrániť z obľúbených';
             } else {
                 detailButton.innerHTML = '<i class="fas fa-heart"></i> Pridať medzi obľúbené';
             }
 
-            // Reakcia na klik
             detailButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 const slug = this.getAttribute('data-slug');

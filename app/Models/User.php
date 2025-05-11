@@ -25,9 +25,8 @@ class User extends Authenticatable
         'newsletter' => 'boolean',
     ];
 
-    /**
-     * Vzťah na obľúbené produkty používateľa.
-     */
+    
+    //Vzťah na obľúbené produkty používateľa.
     public function favorites(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'favorites')->withTimestamps();

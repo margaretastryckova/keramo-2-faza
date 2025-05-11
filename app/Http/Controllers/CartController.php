@@ -1,5 +1,7 @@
 <?php
 
+//sprava pridavania, aktualizacie a odstranenia produktov z kosika 
+
 namespace App\Http\Controllers;
 
 use App\Models\Product;
