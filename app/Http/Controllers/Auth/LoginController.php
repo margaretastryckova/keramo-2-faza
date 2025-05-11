@@ -1,5 +1,7 @@
 <?php
 
+//spracovanie prihlasenia, odhlasenia a presmerovania pouzivatela, spracovanie admina
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -24,7 +26,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // Zavoláme metódu na prenesenie session košíka a presmerovanie
+            // Zavolanie metody na prenesenie session košíka a presmerovanie
             return $this->authenticated($request, Auth::user());
         }
 
@@ -46,9 +48,8 @@ class LoginController extends Controller
         return view('auth.profil');
     }
 
-    /**
-     * Prenos session košíka do DB po prihlásení + presmerovanie podľa typu používateľa
-     */
+    
+     //Prenos session košíka do DB po prihlásení + presmerovanie podľa typu používateľa
     protected function authenticated(Request $request, $user)
     {
         // Prenos session košíka do DB

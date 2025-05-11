@@ -1,4 +1,6 @@
 <?php
+// Controller pre admin cast - sprava produktov (vytvorenie, editacia, mazanie)
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -25,6 +27,7 @@ class ProductAdminController extends Controller
 
         return response()->json(['message' => 'Produkt bol úspešne vymazaný.']);
     }
+    // Uloženie produktu do databázy
     public function store(Request $request)
     {
         $request->validate([
@@ -39,6 +42,7 @@ class ProductAdminController extends Controller
             'farba' => 'nullable|string',
         ]);
 
+        //Ulozenie obrazkov do storage
         $obrazokPath = $request->file('obrazok')->store('products', 'public');
         $detailPath = $request->file('detail') ? $request->file('detail')->store('products', 'public') : null;
         // dd($obrazokPath);

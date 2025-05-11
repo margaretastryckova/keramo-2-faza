@@ -1,5 +1,7 @@
 <?php
 
+//registracia noveho pouzivatela a validacia vstupov
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -21,8 +23,6 @@ class RegisterController extends Controller
 
         $user = $this->create($request->all());
 
-        // Prihlásenie používateľa po úspešnej registrácii (voliteľné)
-        // auth()->login($user);
 
         return redirect()->route('login')->with('success', 'Registrácia bola úspešná. Prosím, prihláste sa.');
     }

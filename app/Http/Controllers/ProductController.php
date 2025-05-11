@@ -103,7 +103,7 @@ class ProductController extends Controller
     // Pomocná metóda na spracovanie rôznych variácií farby
     private function getColorVariations($color)
     {
-        // Môžeš pridať ďalšie variácie podľa potreby
+        
         $colorVariations = [
             'červená' => ['červený', 'červená', 'červené', 'cerveny', 'cervena', 'cervene', 'red'],
             'modrá' => ['modrý', 'modrá', 'modré', 'modry', 'modra', 'modre', 'blue'],

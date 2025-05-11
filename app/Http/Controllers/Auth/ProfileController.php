@@ -1,5 +1,7 @@
 <?php
 
+//// ProfileController - zmena hesla a emailu pre prihlaseneho pouzivatela.
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
